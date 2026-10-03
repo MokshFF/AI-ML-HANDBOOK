@@ -1,29 +1,29 @@
-# Ensemble - References & Further Reading
+# Ensemble Learning: References & Authoritative Sources
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Ensemble**.
-
----
-
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+Curated textbooks, landmark papers, and documentation covering Bagging, Random Forests, Boosting, and modern GBDT engines.
 
 ---
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+## 1. Seminal Publications
+- Breiman, L. (1996). *Bagging predictors*. **Machine Learning**, 24(2), 123–140.
+- Breiman, L. (2001). *Random Forests*. **Machine Learning**, 45(1), 5–32.
+- Freund, Y., & Schapire, R. E. (1997). *A decision-theoretic generalization of on-line learning and an application to boosting*. **Journal of Computer and System Sciences**, 55(1), 119–139. (AdaBoost).
+- Friedman, J. H. (2001). *Greedy function approximation: a gradient boosting machine*. **Annals of Statistics**, 1189–1232.
+- Chen, T., & Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. In **Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining**, pp. 785–794.
+- Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., & Liu, T.-Y. (2017). *LightGBM: A Highly Efficient Gradient Boosting Decision Tree*. In **Advances in Neural Information Processing Systems (NeurIPS 30)**.
+- Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., & Gulin, A. (2018). *CatBoost: unbiased boosting with categorical features*. In **Advances in Neural Information Processing Systems (NeurIPS 31)**.
+- Wolpert, D. H. (1992). *Stacked generalization*. **Neural Networks**, 5(2), 241–259.
 
 ---
 
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
+## 2. Textbooks & Engineering Monographs
+- **The Elements of Statistical Learning: Chapters 10 & 15 (Boosting and Random Forests)** by Trevor Hastie, Robert Tibshirani, and Jerome Friedman (Springer, 2009).
+- **Pattern Recognition and Machine Learning: Chapter 14 (Combining Models)** by Christopher M. Bishop (Springer, 2006).
 
 ---
 
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+## 3. Official Documentation & Open Source Repositories
+- [XGBoost Documentation](https://xgboost.readthedocs.io/en/stable/)
+- [LightGBM Documentation](https://lightgbm.readthedocs.io/en/latest/)
+- [CatBoost Documentation](https://catboost.ai/en/docs/)
+- [Scikit-Learn Ensemble Methods Guide](https://scikit-learn.org/stable/modules/ensemble.html)

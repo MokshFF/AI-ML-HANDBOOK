@@ -1,50 +1,108 @@
-# Reinforcement Learning - Interview Preparation & Question Bank
+# Reinforcement Learning - Technical Interview Preparation
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **Reinforcement Learning**.
+A curated question bank covering theoretical foundations, algorithmic mechanics, proofs, and production trade-offs in Reinforcement Learning.
 
 ---
 
 ## 1. Conceptual & Theoretical Foundations
 
-### Q1: What are the fundamental principles and assumptions underlying Reinforcement Learning?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
-
-### Q2: How does Reinforcement Learning compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
-
----
-
-## 2. Practical Engineering & Troubleshooting
-
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
+### Q1: What is the Markov Property, and why is it essential for Bellman Equations? What happens if an environment is partially observable?
+- **Core Concept**:
+  An environmental state $S_t$ satisfies the **Markov Property** if and only if:
+  $$\mathbb{P}(S_{t+1} = s', R_{t+1} = r \mid S_t = s_t, A_t = a_t, \dots, S_0 = s_0, A_0 = a_0) = \mathbb{P}(S_{t+1} = s', R_{t+1} = r \mid S_t = s_t, A_t = a_t)$$
+  The current state is a sufficient statistic of the complete interaction history.
+- **Why It Enables Bellman Equations**:
+  Because transitions and expected rewards depend exclusively on $(S_t, A_t)$, the value function can be recursively decomposed into an immediate reward plus the discounted expectation of the successor state value:
+  $$V(s) = \sum_{a} \pi(a \mid s) \sum_{s'} \mathcal{P}(s' \mid s, a) [ \mathcal{R}(s, a, s') + \gamma V(s') ]$$
+  Without the Markov property, $V$ would depend on the entire historical sequence $\tau_{0:t}$, making dynamic programming and bootstrapping computationally intractable.
+- **Partially Observable MDPs (POMDP)**:
+  When the agent cannot observe true state $s_t$ but only a noisy observation $o_t \sim \mathcal{O}(s_t)$:
+  - The observation sequence is generally non-Markovian.
+  - *Solution*: Maintain a **belief state** $b_t(s) = \mathbb{P}(S_t = s \mid o_{1:t}, a_{1:t-1})$ (a probability distribution over latent states), or use recurrent neural networks (RNNs/LSTMs) or Transformers (e.g., Decision Transformer) to summarize historical trajectories.
 
 ---
 
-## 3. Production & Scalability Considerations
+### Q2: What is the fundamental difference between On-Policy and Off-Policy Reinforcement Learning?
+- **Definitions**:
+  - **Behavior Policy ($\beta$ or $\mu$)**: The policy generating environmental interaction data (actions taken to explore).
+  - **Target Policy ($\pi$)**: The policy being evaluated and optimized.
+- **On-Policy (e.g., SARSA, Monte Carlo, PPO)**:
+  - $\beta = \pi$. The agent evaluates and improves the exact policy used to collect trajectories.
+  - *SARSA update*: $Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t)]$, where $A_{t+1} \sim \pi(\cdot \mid S_{t+1})$.
+  - Learns conservative policies that account for exploratory mistakes (e.g., walking safely far away from a cliff).
+- **Off-Policy (e.g., Q-Learning, DQN, DDPG, SAC)**:
+  - $\beta \neq \pi$. Data can be collected by any exploratory policy, historical replay buffers, or human demonstrations.
+  - *Q-Learning update*: $Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a') - Q(S_t, A_t)]$.
+  - Target policy is strictly greedy ($\max_{a'}$), irrespective of whether the next exploratory action was random.
+  - High sample efficiency via Experience Replay, but vulnerable to instability when combined with function approximation.
 
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
+---
+
+### Q3: What is the "Deadly Triad" in Reinforcement Learning, and how is it mitigated?
+- **Definition**:
+  The Deadly Triad refers to the mathematical instability or divergence that occurs when combining three design choices:
+  1. **Function Approximation**: Using non-linear estimators (e.g., deep neural networks) rather than tabular lookup tables.
+  2. **Bootstrapping**: Updating value estimates using subsequent value estimates ($r + \gamma V(s')$) rather than waiting for complete empirical returns ($G_t$).
+  3. **Off-Policy Learning**: Training on data generated by a distribution different from the target policy.
+- **Why Divergence Occurs**:
+  The Bellman operator is a contraction mapping under tabular representations. However, projecting value updates onto a restricted function space via function approximation destroys the non-expansion property, allowing value estimates to compound errors and diverge to infinity.
+- **Industrial Mitigations (e.g., DQN)**:
+  - **Experience Replay**: Decorrelates consecutive temporal transitions and stabilizes data distribution.
+  - **Target Networks ($\theta^-$)**: Decouples target generation from active model parameters:
+    $$\mathcal{L}(\theta) = \mathbb{E}\left[ \left( r + \gamma \max_{a'} Q(s', a'; \theta^-) - Q(s, a; \theta) \right)^2 \right]$$
+    Weights $\theta^-$ are frozen and updated only periodically or via Polyak averaging ($\theta^- \leftarrow \tau \theta + (1-\tau)\theta^-$).
+
+---
+
+## 2. Mathematical Derivations & Algorithmic Mechanics
+
+### Q4: Derive the Policy Gradient Theorem and explain why environmental transition dynamics do not need to be known.
+- **Derivation**:
+  Objective: $J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}[R(\tau)] = \int P(\tau; \theta) R(\tau) d\tau$.
+  Taking the gradient with respect to $\theta$:
+  $$\nabla_\theta J(\theta) = \int \nabla_\theta P(\tau; \theta) R(\tau) d\tau = \int P(\tau; \theta) \frac{\nabla_\theta P(\tau; \theta)}{P(\tau; \theta)} R(\tau) d\tau = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \nabla_\theta \log P(\tau; \theta) R(\tau) \right]$$
+  Expanding trajectory probability:
+  $$P(\tau; \theta) = \mu(s_0) \prod_{t=0}^T \pi_\theta(a_t \mid s_t) \mathcal{P}(s_{t+1} \mid s_t, a_t)$$
+  Taking the logarithm:
+  $$\log P(\tau; \theta) = \log \mu(s_0) + \sum_{t=0}^T \log \pi_\theta(a_t \mid s_t) + \sum_{t=0}^T \log \mathcal{P}(s_{t+1} \mid s_t, a_t)$$
+  Differentiating with respect to policy parameters $\theta$:
+  $$\nabla_\theta \log P(\tau; \theta) = \sum_{t=0}^T \nabla_\theta \log \pi_\theta(a_t \mid s_t)$$
+- **Why Transition Dynamics Drop Out**:
+  Neither the initial state distribution $\mu(s_0)$ nor the transition probabilities $\mathcal{P}(s_{t+1} \mid s_t, a_t)$ depend on $\theta$. Consequently, their gradients with respect to $\theta$ are identically zero!
+  This allows model-free optimization: we never need to learn or differentiate through the environmental physics.
+
+---
+
+### Q5: What is Maximization Bias in Q-Learning, and how does Double Q-Learning eliminate it?
+- **Maximization Bias**:
+  In standard Q-learning, the target is computed as $\max_{a} Q(s', a)$.
+  Because estimates contain random zero-mean noise $\epsilon_a$:
+  $$\mathbb{E}[\max_a (Q^*(s', a) + \epsilon_a)] \ge \max_a \mathbb{E}[Q^*(s', a) + \epsilon_a] = \max_a Q^*(s', a)$$
+  Taking the maximum over noisy estimates causes a systematic upward (positive) bias, leading to overoptimistic value predictions and poor sub-optimal policies.
+- **Double Q-Learning Resolution**:
+  Decouples the **action selection** step from the **action evaluation** step using two independent estimators $Q_A$ and $Q_B$:
+  $$a^* = \arg\max_a Q_A(s', a) \quad \text{(Action Selection)}$$
+  $$\text{Target} = R + \gamma Q_B(s', a^*) \quad \text{(Action Evaluation)}$$
+  Because $Q_B$ is independent of the noise in $Q_A$, $\mathbb{E}[Q_B(s', a^*)] = Q^*(s', a^*)$, eliminating the positive maximization bias.
+
+---
+
+## 3. Practical Systems & Advanced Paradigms
+
+### Q6: How does RLHF (Reinforcement Learning from Human Feedback) frame LLM alignment as an RL problem?
+- **MDP Formulation for LLMs**:
+  - **State $s_t$**: The prompt tokens plus all response tokens generated up to time $t$.
+  - **Action $a_t$**: The next token chosen from the vocabulary $\mathcal{V}$ ($|\mathcal{V}| \approx 32\text{k} - 128\text{k}$).
+  - **Policy $\pi_\theta(a_t \mid s_t)$**: The LLM transformer decoder outputting softmax token logits.
+  - **Reward $R$**: Provided at sequence completion by a learned Reward Model $r_\psi(\text{prompt}, \text{response})$ trained on human pairwise preferences (Bradley-Terry model).
+- **PPO Alignment Objective**:
+  To prevent catastrophic forgetting and reward hacking, a KL divergence penalty against the frozen reference model $\pi_{\text{ref}}$ is added:
+  $$R_{\text{total}}(\tau) = r_\psi(x, y) - \beta \mathbb{D}_{\text{KL}}(\pi_\theta(y \mid x) \parallel \pi_{\text{ref}}(y \mid x))$$
+  The LLM is optimized using Proximal Policy Optimization (PPO) or direct analytical alternatives such as DPO (Direct Preference Optimization).
 
 ---
 
 ## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+
+1. **Vectorized Bellman Operator**: Write a function that takes transition tensor $P \in \mathbb{R}^{S \times A \times S}$, reward matrix $R \in \mathbb{R}^{S \times A}$, and value vector $V \in \mathbb{R}^S$, returning updated value $V_{\text{new}}$ using single-line tensor contractions.
+2. **Softmax Policy Gradient Step**: Given state feature vector $x \in \mathbb{R}^d$, weight matrix $W \in \mathbb{R}^{A \times d}$, chosen action $a$, and return $G$, write pure NumPy code computing $\nabla_W J$ without loops.

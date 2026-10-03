@@ -1,29 +1,25 @@
-# Recommender Systems - References & Further Reading
+# Recommender Systems: References & Authoritative Sources
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Recommender Systems**.
-
----
-
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+Curated textbooks, landmark papers, and documentation covering collaborative filtering, matrix factorization, and two-tower architectures.
 
 ---
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+## 1. Seminal Publications
+- Koren, Y., Bell, R., & Volinsky, C. (2009). *Matrix factorization techniques for recommender systems*. **Computer**, 42(8), 30–37.
+- Hu, Y., Koren, Y., & Volinsky, C. (2008). *Collaborative filtering for implicit feedback datasets*. In **Eighth IEEE International Conference on Data Mining (ICDM)**, pp. 263–272.
+- Sarwar, B., Karypis, G., Konstan, J., & Riedl, J. (2001). *Item-based collaborative filtering recommendation algorithms*. In **Proceedings of the 10th International Conference on World Wide Web**, pp. 285–295.
+- Rendle, S., Freudenthaler, C., Gantner, Z., & Schmidt-Thieme, L. (2009). *BPR: Bayesian personalized ranking from implicit feedback*. In **Proceedings of the Twenty-Fifth Conference on Uncertainty in Artificial Intelligence (UAI)**, pp. 452–461.
+- Covington, P., Adams, J., & Sargin, E. (2016). *Deep neural networks for YouTube recommendations*. In **Proceedings of the 10th ACM Conference on Recommender Systems (RecSys)**, pp. 191–198.
 
 ---
 
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
+## 2. Textbooks & Engineering Monographs
+- **Recommender Systems: The Textbook** by Charu C. Aggarwal (Springer, 2016). The definitive academic encyclopedia on recommender architectures.
+- **Statistical Methods for Recommender Systems** by Deepak K. Agarwal and Bee-Chung Chen (Cambridge University Press, 2016).
 
 ---
 
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+## 3. Production Frameworks & Open Source Libraries
+- [Implicit: Fast Python Collaborative Filtering for Implicit Datasets](https://github.com/benfred/implicit)
+- [Surprise: A Python scikit for Recommender Systems](http://surpriselib.com/)
+- [Google TensorFlow Recommenders (TFRS)](https://www.tensorflow.org/recommenders)
