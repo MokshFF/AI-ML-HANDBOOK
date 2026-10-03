@@ -1,29 +1,25 @@
-# Python For ML - References & Further Reading
+# Python for Machine Learning: References & Authoritative Sources
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Python For ML**.
-
----
-
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+Curated textbooks, academic papers, and technical documentations for Python, NumPy, Pandas, and computational engineering.
 
 ---
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+## 1. Seminal Publications
+- Harris, C. R., Millman, K. J., van der Walt, S. J., et al. (2020). *Array programming with NumPy*. **Nature**, 585(7825), 357–362. [DOI: 10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2)
+- McKinney, W. (2010). *Data Structures for Statistical Computing in Python*. In Proceedings of the 9th Python in Science Conference (SciPy 2010), pp. 56–61.
 
 ---
 
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
+## 2. Textbooks & Engineering References
+- **Fluent Python** (2nd Edition) by Luciano Ramalho (O'Reilly Media, 2022). Comprehensive coverage of Python data model, generators, typing, and async.
+- **Python for Data Analysis** (3rd Edition) by Wes McKinney (O'Reilly Media, 2022). Definitive guide to Pandas, NumPy, and data manipulation.
+- **Effective Python: 90 Specific Ways to Write Better Python** (2nd Edition) by Brett Slatkin (Addison-Wesley, 2019). Best practices for production-quality Python.
+- **High Performance Python** (2nd Edition) by Micha Gorelick and Ian Ozsvald (O'Reilly Media, 2020). Profiling, memory layout, Cython, and multi-core execution.
 
 ---
 
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+## 3. Official Documentation & Guides
+- [NumPy Reference Guide & Internals](https://numpy.org/doc/stable/reference/internals.html)
+- [Pandas User Guide](https://pandas.pydata.org/docs/user_guide/index.html)
+- [Matplotlib Object-Oriented Architecture Guide](https://matplotlib.org/stable/users/explain/quick_start.html)
+- [Python Typing Documentation (PEP 484 / PEP 585)](https://docs.python.org/3/library/typing.html)

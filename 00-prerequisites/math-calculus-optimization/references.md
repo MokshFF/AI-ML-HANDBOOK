@@ -1,29 +1,25 @@
-# Math Calculus Optimization - References & Further Reading
+# Calculus & Optimization for Machine Learning: References & Authoritative Sources
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Math Calculus Optimization**.
-
----
-
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+Curated textbooks, landmark papers, and academic monographs for differential calculus, optimization theory, and learning dynamics.
 
 ---
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+## 1. Seminal Publications
+- Kingma, D. P., & Ba, J. (2014). *Adam: A Method for Stochastic Optimization*. **arXiv preprint arXiv:1412.6980**. (The foundational paper introducing Adam).
+- Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). *Learning representations by back-propagating errors*. **Nature**, 323(6088), 533–536. [DOI: 10.1038/323533a0](https://doi.org/10.1038/323533a0)
+- Dauphin, Y. N., Pascanu, R., Gulcehre, C., Cho, K., Ganguli, S., & Bengio, Y. (2014). *Identifying and attacking the saddle point problem in high-dimensional non-convex optimization*. In **Advances in Neural Information Processing Systems (NeurIPS 27)**.
+- Griewank, A., & Walther, A. (2008). *Evaluating Derivatives: Principles and Techniques of Algorithmic Differentiation* (2nd ed.). SIAM.
 
 ---
 
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
+## 2. Textbooks & Monographs
+- **Convex Optimization** by Stephen Boyd and Lieven Vandenberghe (Cambridge University Press, 2004). Free online edition available.
+- **Numerical Optimization** (2nd Edition) by Jorge Nocedal and Stephen J. Wright (Springer, 2006). The definitive industrial reference for first- and second-order numerical optimization.
+- **Calculus** (4th Edition) by Michael Spivak (Publish or Perish, 2008). Rigorous treatment of single-variable analysis and differentiation.
+- **Deep Learning: Chapter 4 (Numerical Computation)** by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press, 2016).
 
 ---
 
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+## 3. Online Courses & Interactive Tools
+- [Stanford CS229: Machine Learning - Optimization Lecture Notes](https://cs229.stanford.edu/notes2022fall/cs229-notes-opt.pdf)
+- [Distill.pub: Why Momentum Really Works by Gabriel Goh](https://distill.pub/2017/momentum/)
