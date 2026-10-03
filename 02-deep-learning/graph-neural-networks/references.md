@@ -1,29 +1,45 @@
-# Graph Neural Networks - References & Further Reading
+# Graph Neural Networks - Curated References & Bibliography
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Graph Neural Networks**.
-
----
-
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+A curated collection of foundational research papers, landmark monographs, and official libraries for Graph Neural Networks.
 
 ---
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+## 1. Landmark Research Papers
+
+### 1.1 Spectral & Spatial Message Passing Foundations
+- **Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering**
+  - *Authors*: Michaël Defferrard, Xavier Bresson, Pierre Vandergheynst (NeurIPS, 2016).
+  - *Significance*: Formulated Chebyshev polynomial spectral filters on graph Laplacians.
+- **Semi-Supervised Classification with Graph Convolutional Networks (GCN)**
+  - *Authors*: Thomas N. Kipf, Max Welling (ICLR, 2017).
+  - *Significance*: Derived the first-order localized spectral approximation, establishing modern GCNs.
+- **Neural Message Passing for Quantum Chemistry (MPNN Framework)**
+  - *Authors*: Justin Gilmer, Samuel S. Schoenholz, Patrick F. Riley, Oriol Vinyals, George E. Dahl (ICML, 2017).
+  - *Significance*: Unified spatial graph deep learning under the Message-Aggregate-Update abstraction.
+
+### 1.2 Scalability & Attention Mechanisms
+- **Inductive Representation Learning on Large Graphs (GraphSAGE)**
+  - *Authors*: William L. Hamilton, Rex Ying, Jure Leskovec (NeurIPS, 2017).
+  - *Significance*: Introduced neighborhood sampling, enabling inductive mini-batch training on massive web-scale graphs.
+- **Graph Attention Networks (GAT)**
+  - *Authors*: Petar Veličković, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Liò, Yoshua Bengio (ICLR, 2018).
+  - *Significance*: Applied self-attention to graph neighborhoods, enabling anisotropic edge weighting.
+- **How Powerful are Graph Neural Networks? (GIN)**
+  - *Authors*: Keyulu Xu, Weihua Hu, Jure Leskovec, Stefanie Jegelka (ICLR, 2019).
+  - *Significance*: Proved the theoretical equivalence between message passing GNNs and the 1-Weisfeiler-Lehman (1-WL) graph isomorphism test.
+
+### 1.3 Over-Smoothing & Deep Architectures
+- **Deeper Insights into Graph Convolutional Networks: An Analysis of Over-Smoothing**
+  - *Authors*: Qimai Li, Zhichao Han, Xiao-Ming Wu (AAAI, 2018).
+  - *Significance*: Mathematical analysis proving GCN performs Laplacian smoothing leading to embedding collapse.
+- **Representation Learning on Graphs with Jumping Knowledge Networks**
+  - *Authors*: Keyulu Xu, Chengtao Li, Yonglong Tian, Tomohiro Sonobe, Ken-ichi Kawarabayashi, Stefanie Jegelka (ICML, 2018).
+  - *Significance*: Flexible multi-layer skip connections mitigating over-smoothing.
 
 ---
 
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
+## 2. Textbooks & Engineering Frameworks
 
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+- **Graph Representation Learning** by William L. Hamilton (Synthesis Lectures on Artificial Intelligence and Machine Learning, Morgan & Claypool, 2020).
+- **PyTorch Geometric (PyG)**: Canonical high-performance library for graph deep learning. [pyg.org](https://pyg.org/)
+- **Deep Graph Library (DGL)**: Framework-agnostic scalable graph neural network library. [dgl.ai](https://www.dgl.ai/)

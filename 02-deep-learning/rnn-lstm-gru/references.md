@@ -1,29 +1,45 @@
-# RNN LSTM GRU - References & Further Reading
+# Recurrent Neural Networks - Curated References & Bibliography
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **RNN LSTM GRU**.
-
----
-
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+A curated collection of landmark research papers, seminal monographs, and official documentation on sequential deep learning.
 
 ---
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+## 1. Landmark Research Papers
+
+### 1.1 Foundations & Early Recurrent Models
+- **Finding Structure in Time (Elman RNN)**
+  - *Author*: Jeffrey L. Elman (Cognitive Science, 1990).
+  - *Significance*: Established the canonical Elman simple recurrent network architecture with recurrent context units.
+- **Learning Long-Term Dependencies with Gradient Descent is Difficult**
+  - *Authors*: Yoshua Bengio, Patrice Simard, Paolo Frasconi (IEEE Transactions on Neural Networks, 1994).
+  - *Significance*: The mathematical proof formalizing vanishing and exploding gradients in recurrent networks.
+
+### 1.2 Gated Architectures & Solutions
+- **Long Short-Term Memory (LSTM)**
+  - *Authors*: Sepp Hochreiter, Jürgen Schmidhuber (Neural Computation, 1997).
+  - *Significance*: Introduced the constant error carousel and gating mechanism, revolutionizing sequential modeling.
+- **Learning to Forget: Continual Prediction with LSTM (Forget Gate)**
+  - *Authors*: Felix A. Gers, Jürgen Schmidhuber, Fred Cummins (Neural Computation, 2000).
+  - *Significance*: Added the adaptive forget gate $f_t$ to the original LSTM cell.
+- **Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation (GRU)**
+  - *Authors*: Kyunghyun Cho, Bart van Merriënboer, Caglar Gulcehre, et al. (EMNLP, 2014).
+  - *Significance*: Introduced the Gated Recurrent Unit (GRU) and the Seq2Seq encoder-decoder architecture.
+- **An Empirical Exploration of Recurrent Network Architectures (Forget Gate Bias Trick)**
+  - *Authors*: Rafal Jozefowicz, Wojciech Zaremba, Ilya Sutskever (ICML, 2015).
+  - *Significance*: Evaluated thousands of recurrent architectures; proved initializing forget gate bias to 1-2 matches or beats exotic variants.
+
+### 1.3 Bidirectional & Sequence-to-Sequence Modeling
+- **Bidirectional Recurrent Neural Networks**
+  - *Authors*: Mike Schuster, Kuldip K. Paliwal (IEEE Transactions on Signal Processing, 1997).
+  - *Significance*: Formulated simultaneous forward and backward sequence processing for complete context capture.
+- **Sequence to Sequence Learning with Neural Networks**
+  - *Authors*: Ilya Sutskever, Oriol Vinyals, Quoc V. Le (NeurIPS, 2014).
+  - *Significance*: Multi-layer deep LSTM mapping arbitrary sequence lengths to arbitrary target sequence lengths.
 
 ---
 
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
+## 2. Textbooks & Guides
 
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+- **Deep Learning (Chapter 10: Sequence Modeling)** by Ian Goodfellow, Yoshua Bengio, Aaron Courville (MIT Press).
+- **Understanding LSTM Networks** by Christopher Olah (Canonical visual blog post).
+- **PyTorch Recurrent Layers (`torch.nn.RNN`, `torch.nn.LSTM`, `torch.nn.GRU`)**: [pytorch.org/docs/stable/nn.html#recurrent-layers](https://pytorch.org/docs/stable/nn.html#recurrent-layers)
