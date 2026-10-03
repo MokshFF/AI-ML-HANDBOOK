@@ -1,0 +1,37 @@
+# Core Scientific Computing & Data Manipulation
+numpy>=1.26.0,<2.1.0
+pandas>=2.1.0,<2.3.0
+scipy>=1.11.0,<1.15.0
+
+# Data Visualization
+matplotlib>=3.8.0,<3.10.0
+seaborn>=0.13.0,<0.14.0
+
+# Classical Machine Learning
+scikit-learn>=1.4.0,<1.6.0
+xgboost>=2.0.0,<2.2.0
+lightgbm>=4.3.0,<4.5.0
+
+# Deep Learning Frameworks
+# Note: For GPU acceleration, follow PyTorch official instructions for your CUDA version
+torch>=2.2.0,<2.5.0
+torchvision>=0.17.0,<0.20.0
+torchaudio>=2.2.0,<2.5.0
+
+# NLP, Transformers, & Tokenization
+transformers>=4.40.0,<4.45.0
+datasets>=2.19.0,<2.22.0
+tokenizers>=0.19.0,<0.20.0
+accelerate>=0.30.0,<0.34.0
+
+# Jupyter Interactive Environment
+jupyterlab>=4.1.0,<4.3.0
+notebook>=7.1.0,<7.3.0
+ipywidgets>=8.1.0,<8.3.0
+nbformat>=5.10.0,<5.11.0
+
+# Quality Assurance, Formatting & Static Analysis
+pytest>=8.1.0,<8.4.0
+ruff>=0.4.0,<0.6.0
+black>=24.3.0,<24.9.0
+pre-commit>=3.7.0,<3.9.0

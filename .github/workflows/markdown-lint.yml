@@ -1,0 +1,50 @@
+name: Markdown & Link Validation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  markdown-check:
+    name: Validate Markdown Links & Formatting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate Markdown Internal Links
+        run: |
+          python -c "
+          import re, os, sys
+          from pathlib import Path
+
+          root = Path('.')
+          broken = 0
+          for md in root.rglob('*.md'):
+              if '.venv' in md.parts or '.git' in md.parts:
+                  continue
+              text = md.read_text(encoding='utf-8')
+              links = re.findall(r'\[([^\]]+)\]\(([^\)]+)\)', text)
+              for text_label, link in links:
+                  if link.startswith('http') or link.startswith('#') or link.startswith('mailto:'):
+                      continue
+                  clean_link = link.split('#')[0]
+                  if not clean_link:
+                      continue
+                  target = (md.parent / clean_link).resolve()
+                  if not target.exists():
+                      print(f'Broken link in {md}: {link} -> {target}')
+                      broken += 1
+          if broken > 0:
+              print(f'Total broken internal links: {broken}')
+              sys.exit(1)
+          print('All internal markdown links verified successfully.')
+          "

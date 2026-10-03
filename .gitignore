@@ -1,0 +1,129 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook checkpoints & autosaves
+.ipynb_checkpoints
+*-checkpoint.ipynb
+*.nbconvert.ipynb
+
+# Environments & Virtual Envs
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE & Editor Settings
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# Heavy Model Checkpoints & Serialized Weights
+*.pt
+*.pth
+*.bin
+*.onnx
+*.safetensors
+*.ckpt
+*.h5
+*.pb
+*.tflite
+*.mar
+models/checkpoints/
+weights/
+checkpoints/
+
+# Datasets, Cache, & Large Data Dumps
+data/
+datasets/
+*.csv.gz
+*.tar.gz
+*.zip
+*.parquet
+*.arrow
+cache/
+.cache/
+hf_cache/
+
+# Experiment Tracking & Artifacts
+mlruns/
+wandb/
+lightning_logs/
+runs/
+
+# Secrets, Credentials, and Local Configs
+*.pem
+*.key
+*.crt
+*.pfx
+secrets.json
+credentials.json
+.env.*
+!.env.example
