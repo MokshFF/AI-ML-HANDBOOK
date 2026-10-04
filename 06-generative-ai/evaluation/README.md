@@ -1,39 +1,85 @@
-# Evaluation
+# Generative AI Evaluation & Benchmarking
 
-## Overview
-LLM-as-a-judge, benchmark suites (MMLU, GSM8K, HumanEval), automated evaluation metrics, and hallucination detection.
+Comprehensive guide and implementation of evaluation methodologies for Large Language Models and Generative AI systems, covering lexical metrics, RAG groundedness, retrieval metrics, LLM-as-a-judge protocols, and human evaluation statistics.
 
-## Learning Objectives
-By completing this topic module, you will be able to:
-- Explain core theoretical foundations, assumptions, and mathematical formulations.
-- Implement key algorithms from scratch as well as using production-grade libraries.
-- Diagnose and debug common issues such as numerical instability, over-fitting, and data leakage.
-- Evaluate trade-offs between computational complexity, latency, memory consumption, and predictive performance.
-- Formulate answers to relevant technical and conceptual interview questions.
+---
 
-## Directory Structure
-- [`notebook.ipynb`](./notebook.ipynb): Interactive Jupyter notebook providing self-contained, reproducible walkthroughs.
-- [`code/`](./code/): Reusable Python modules, scripts, and helper functions.
-- [`interview.md`](./interview.md): Curated technical interview questions, conceptual drills, and trade-off analyses.
-- [`references.md`](./references.md): Seminal papers, official documentation, authoritative textbooks, and external resources.
+## 1. The Evaluation Hierarchy
 
-## Quick Start
-1. Ensure your local virtual environment is activated and dependencies are installed:
-   ```bash
-   pip install -r ../../requirements.txt
-   ```
-2. Launch the interactive notebook:
-   ```bash
-   jupyter lab notebook.ipynb
-   ```
-3. Run standalone scripts in [`code/`](./code/):
-   ```bash
-   python -m code.<script_name>
-   ```
+```
+                                +---------------------------+
+                                |    Production Feedback    | (Online A/B testing, user thumbs up/down)
+                                +-------------+-------------+
+                                              |
+                                +-------------v-------------+
+                                |     Human Evaluation      | (Domain expert review, Cohen's Kappa, Likert)
+                                +-------------+-------------+
+                                              |
+                                +-------------v-------------+
+                                |      LLM-as-a-Judge       | (Pairwise comparison, rubric scoring, MT-Bench)
+                                +-------------+-------------+
+                                              |
+                                +-------------v-------------+
+                                |  RAG & Groundedness Eval  | (Faithfulness, answer relevance, citation check)
+                                +-------------+-------------+
+                                              |
+                                +-------------v-------------+
+                                | Lexical / Automated Tests | (Exact Match, Token F1, ROUGE, BLEU, Unit Tests)
+                                +---------------------------+
+```
 
-## Key Concepts Matrix
-| Concept | Description | Typical Use Case | Trade-offs |
-| :--- | :--- | :--- | :--- |
-| **Core Representation** | Primary mathematical or data abstraction | Problem formulation | Expressiveness vs. complexity |
-| **Optimization Goal** | Objective or loss function minimized/maximized | Training & convergence | Convexity vs. local minima |
-| **Inference Mechanism** | Forward evaluation / prediction pass | Production serving | Latency vs. precision |
+---
+
+## 2. Evaluation Categories
+
+### 2.1 Lexical & Reference Metrics
+- **Exact Match (EM)**: String equality after case folding and punctuation removal (standard in SQuAD).
+- **Token F1**: Precision, recall, and harmonic mean computed over bag-of-words tokens.
+- **ROUGE (Recall-Oriented Understudy for Gesting Evaluation)**:
+  - **ROUGE-1 / ROUGE-2**: Unigram and bigram overlap.
+  - **ROUGE-L**: Longest Common Subsequence (LCS), sensitive to word order without requiring strict n-gram contiguity.
+- **BLEU (Bilingual Evaluation Understudy)**: Modified n-gram precision penalized by a brevity penalty for short responses.
+
+### 2.2 RAG Groundedness & Factuality
+- **Faithfulness / Groundedness**: Every atomic claim made in the generation must be logically entailed or directly supported by the retrieved context.
+- **Answer Relevance**: The generation directly addresses all constraints and aspects of the user query.
+- **Hallucination Rate**: $1.0 - \text{Groundedness}$.
+
+### 2.3 Retrieval Metrics
+- **Recall@k**: Proportion of all relevant documents present in the top-$k$ retrieved candidates:
+  $$\text{Recall}@k = \frac{|\mathcal{R}_k \cap \mathcal{G}|}{|\mathcal{G}|}$$
+- **Mean Reciprocal Rank (MRR)**: Reciprocal rank of the *first* relevant document:
+  $$\text{MRR} = \frac{1}{|Q|} \sum_{q=1}^{|Q|} \frac{1}{\text{rank}_1}$$
+- **nDCG@k (Normalized Discounted Cumulative Gain)**: Measures ranking quality with logarithmic discount:
+  $$\text{DCG}@k = \sum_{i=1}^k \frac{\text{rel}_i}{\log_2(i + 1)}, \quad \text{nDCG}@k = \frac{\text{DCG}@k}{\text{IDCG}@k}$$
+
+### 2.4 LLM-as-a-Judge & Bias Mitigation
+Using a high-capacity model (e.g., frontier LLM) to score candidate responses:
+1. **Position Bias**: LLMs exhibit strong preference for Candidate A over Candidate B regardless of quality.
+   - *Mitigation*: **Swap-Trial Evaluation** (evaluate $(A, B)$ then $(B, A)$; only declare a winner if consistent across both permutations).
+2. **Verbosity Bias**: Judges favor longer, verbose responses over concise, correct ones.
+   - *Mitigation*: Explicit length penalties and strict conciseness constraints in rubrics.
+3. **Self-Enhancement Bias**: Models often prefer answers generated by their own family.
+
+### 2.5 Human Evaluation & Statistics
+- **Cohen's Kappa ($\kappa$)**: Quantifies inter-annotator agreement above chance:
+  $$\kappa = \frac{p_o - p_e}{1 - p_e}$$
+  - $\kappa > 0.8$: Near-perfect agreement.
+  - $0.6 < \kappa \le 0.8$: Substantial agreement.
+  - $\kappa < 0.4$: Poor agreement (rubric needs refinement).
+- **Bootstrap Confidence Intervals**: Non-parametric resampling with replacement to estimate robust 95% confidence intervals on benchmark scores without assuming Gaussian distributions.
+
+---
+
+## 3. Directory Structure
+
+```
+06-generative-ai/evaluation/
+├── README.md
+├── notebook.ipynb
+├── interview.md
+├── references.md
+└── code/
+    ├── eval_metrics.py
+    └── test_eval_metrics.py
+```

@@ -1,39 +1,87 @@
-# Safety Alignment
+# Generative AI Safety, Alignment & Guardrails
 
-## Overview
-RLHF, DPO, constitutional AI, prompt injection defenses, guardrails, and toxicity filtering.
+Comprehensive guide and implementation of defensive engineering for Large Language Models, covering prompt injection defenses, PII redaction, input/output guardrails, statistical watermarking, RLHF/DPO concepts, and Constitutional AI.
 
-## Learning Objectives
-By completing this topic module, you will be able to:
-- Explain core theoretical foundations, assumptions, and mathematical formulations.
-- Implement key algorithms from scratch as well as using production-grade libraries.
-- Diagnose and debug common issues such as numerical instability, over-fitting, and data leakage.
-- Evaluate trade-offs between computational complexity, latency, memory consumption, and predictive performance.
-- Formulate answers to relevant technical and conceptual interview questions.
+---
 
-## Directory Structure
-- [`notebook.ipynb`](./notebook.ipynb): Interactive Jupyter notebook providing self-contained, reproducible walkthroughs.
-- [`code/`](./code/): Reusable Python modules, scripts, and helper functions.
-- [`interview.md`](./interview.md): Curated technical interview questions, conceptual drills, and trade-off analyses.
-- [`references.md`](./references.md): Seminal papers, official documentation, authoritative textbooks, and external resources.
+## 1. Multi-Layer Defense Architecture
 
-## Quick Start
-1. Ensure your local virtual environment is activated and dependencies are installed:
-   ```bash
-   pip install -r ../../requirements.txt
-   ```
-2. Launch the interactive notebook:
-   ```bash
-   jupyter lab notebook.ipynb
-   ```
-3. Run standalone scripts in [`code/`](./code/):
-   ```bash
-   python -m code.<script_name>
-   ```
+```
+                    +-----------------------------+
+                    |        User Request         |
+                    +--------------+--------------+
+                                   |
+                                   v
+             [Layer 1: Input Guardrails & Sanitizer]
+             - Prompt injection & jailbreak detection
+             - Harmful intent / topic classification
+             - PII redaction & delimiter encapsulation
+                                   | (Passed)
+                                   v
+             [Layer 2: Aligned Model Core (RLHF / DPO)]
+             - Refusal training on dangerous capabilities
+             - Constitutional AI principles
+             - Watermark token biasing (optional)
+                                   |
+                                   v
+             [Layer 3: Output Guardrails & Verification]
+             - Factuality / groundedness checking
+             - Data leakage / secret scrubber
+             - Toxicity & bias evaluation
+                                   |
+                                   v
+                    +-----------------------------+
+                    |    Safe Model Completion    |
+                    +-----------------------------+
+```
 
-## Key Concepts Matrix
-| Concept | Description | Typical Use Case | Trade-offs |
-| :--- | :--- | :--- | :--- |
-| **Core Representation** | Primary mathematical or data abstraction | Problem formulation | Expressiveness vs. complexity |
-| **Optimization Goal** | Objective or loss function minimized/maximized | Training & convergence | Convexity vs. local minima |
-| **Inference Mechanism** | Forward evaluation / prediction pass | Production serving | Latency vs. precision |
+---
+
+## 2. Threat Models & Defenses
+
+### 2.1 Direct Prompt Injection & Jailbreaks
+- **Jailbreak**: Prompt patterns designed to elicit responses that violate model safety training (e.g., "Do Anything Now" (DAN), roleplay personas, hypothetical scenarios).
+- **Defense**:
+  - Semantic and regex heuristic filters.
+  - Separate system/user privilege levels (System Prompt prioritization).
+  - Fine-tuning on adversarial jailbreak datasets (Red Teaming).
+
+### 2.2 Indirect Prompt Injection
+- **Mechanism**: The attacker embeds malicious instructions inside external content retrieved by the LLM (e.g., websites, emails, PDF resumes, GitHub issues). When processed via RAG or Web Search, the injected payload hijacks the agent's execution.
+- **Defenses**:
+  - **Canary Tokens**: Embed high-entropy random tokens in prompt boundaries; if the canary appears in output or execution traces, injection is detected.
+  - **Defensive Boundary Delimiters**: Strictly package untrusted context inside XML or markdown tags (`<untrusted_doc>...</untrusted_doc>`) and instruct the model that content within tags must never be interpreted as commands.
+
+### 2.3 Data Privacy & PII Leakage
+LLMs can inadvertently memorize or regurgitate training data, API credentials, or user sensitive details:
+- **Pre-Processing Scrubber**: Regex and NER token scrubbers replace emails, telephone numbers, IP addresses, and authorization keys with placeholder tokens (`[REDACTED_EMAIL]`).
+
+### 2.4 Statistical Text Watermarking (Kirchenbauer et al., 2023)
+Enables mathematical verification that a passage was generated by a specific model:
+1. **Green-List Partition**: At token position $t$, hash the preceding token $x_{t-1}$ with a secret key $K$ to pseudo-randomly partition vocabulary $V$ into a "green-list" $G$ of size $\gamma |V|$ and a "red-list" $R$.
+2. **Logit Biasing**: Add constant $\delta > 0$ to logits $z_k$ for $k \in G$:
+   $$z_k' = z_k + \delta \cdot \mathbb{I}(k \in G)$$
+3. **Statistical Detection**: For a sequence of length $T$, count the number of green-list tokens $|G|$. Under the null hypothesis that text is human-authored, the green count follows $\text{Binomial}(T, \gamma)$.
+4. **Z-score**:
+   $$z = \frac{|G| - \gamma T}{\sqrt{T \gamma (1 - \gamma)}}$$
+   A score of $z > 4.0$ provides decisive statistical proof ($p < 3 \times 10^{-5}$) of model provenance without degrading text fluency.
+
+### 2.5 Constitutional AI (RLAIF)
+Pioneered by Anthropic (Bai et al., 2022), Constitutional AI trains harmless and helpful models without human feedback at every step:
+1. **Supervised Stage**: The model self-critiques and revises initial harmful responses using a set of written constitutional principles.
+2. **RLAIF Stage**: A second model evaluates pairwise revisions against the constitution to train a preference model for reinforcement learning (or direct DPO).
+
+---
+
+## 3. Directory Structure
+
+```
+06-generative-ai/safety-alignment/
+├── README.md
+├── notebook.ipynb
+├── interview.md
+├── references.md
+└── code/
+    ├── safety_guardrails.py
+    └── test_safety_guardrails.py
+```

@@ -1,29 +1,29 @@
-# Agents - References & Further Reading
+# AI Agents References & Seminal Papers
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Agents**.
+### Seminal Papers
+- **ReAct: Synergizing Reasoning and Acting in Language Models** (Yao et al., 2022)  
+  *Introduced the foundational Thought-Action-Observation paradigm.*  
+  [https://arxiv.org/abs/2210.03629](https://arxiv.org/abs/2210.03629)
 
----
+- **Toolformer: Language Models Can Teach Themselves to Use Tools** (Schick et al., 2023)  
+  *Self-supervised learning of when and how to call external APIs.*  
+  [https://arxiv.org/abs/2302.04761](https://arxiv.org/abs/2302.04761)
 
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+- **Reflexion: Language Agents with Verbal Reinforcement Learning** (Shinn et al., 2023)  
+  *Dynamic memory and self-reflection loops for iterative agent self-correction.*  
+  [https://arxiv.org/abs/2303.11366](https://arxiv.org/abs/2303.11366)
 
----
+- **Generative Agents: Interactive Simulacra of Human Behavior** (Park et al., 2023)  
+  *Architectures for long-term memory retrieval, reflection, and multi-agent social interaction.*  
+  [https://arxiv.org/abs/2304.03442](https://arxiv.org/abs/2304.03442)
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+- **Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models** (Wang et al., 2023)  
+  [https://arxiv.org/abs/2305.04091](https://arxiv.org/abs/2305.04091)
 
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+### Official Standards & Frameworks
+- **Model Context Protocol (MCP) Specification**  
+  [https://modelcontextprotocol.io/introduction](https://modelcontextprotocol.io/introduction)
+- **LangGraph Documentation & Architecture Guide**  
+  [https://langchain-ai.github.io/langgraph/](https://langchain-ai.github.io/langgraph/)
+- **Anthropic Building Effective Agents Guide**  
+  [https://www.anthropic.com/research/building-effective-agents](https://www.anthropic.com/research/building-effective-agents)

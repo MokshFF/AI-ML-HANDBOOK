@@ -1,29 +1,24 @@
-# Evaluation - References & Further Reading
+# Generative AI Evaluation References & Seminal Papers
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Evaluation**.
+### Seminal Papers
+- **Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena** (Zheng et al., 2023)  
+  *Introduced MT-Bench, Chatbot Arena, and rigorous analysis of LLM judge biases.*  
+  [https://arxiv.org/abs/2306.05685](https://arxiv.org/abs/2306.05685)
 
----
+- **RAGAS: Automated Evaluation of Retrieval Augmented Generation** (Es et al., 2023)  
+  *Framework for evaluating faithfulness, answer relevance, context precision, and context recall.*  
+  [https://arxiv.org/abs/2309.15217](https://arxiv.org/abs/2309.15217)
 
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+- **ROUGE: A Package for Automatic Evaluation of Summaries** (Lin, 2004)  
+  *Foundational paper on recall-oriented n-gram and LCS overlap metrics.*  
+  [https://aclanthology.org/W04-1013/](https://aclanthology.org/W04-1013/)
 
----
+- **BLEU: A Method for Automatic Evaluation of Machine Translation** (Papineni et al., 2002)  
+  [https://aclanthology.org/P02-1040/](https://aclanthology.org/P02-1040/)
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+- **A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions** (Huang et al., 2023)  
+  [https://arxiv.org/abs/2311.05232](https://arxiv.org/abs/2311.05232)
 
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+### Standards & Benchmarks
+- **LMSYS Chatbot Arena Leaderboard**: [https://chat.lmsys.org/](https://chat.lmsys.org/)
+- **HELM (Holistic Evaluation of Language Models - Stanford CRFM)**: [https://crfm.stanford.edu/helm/](https://crfm.stanford.edu/helm/)

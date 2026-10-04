@@ -1,29 +1,26 @@
-# Inference Optimization - References & Further Reading
+# LLM Inference Optimization References & Seminal Papers
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Inference Optimization**.
+### Seminal Papers
+- **Efficient Memory Management for Large Language Model Serving with PagedAttention (vLLM)** (Kwon et al., 2023)  
+  *Introduced PagedAttention and near-zero memory fragmentation for LLM serving.*  
+  [https://arxiv.org/abs/2309.06180](https://arxiv.org/abs/2309.06180)
 
----
+- **Fast Inference from Transformers via Speculative Decoding** (Leviathan et al., 2023)  
+  *Foundational formulation of speculative decoding and lossless rejection sampling.*  
+  [https://arxiv.org/abs/2211.17192](https://arxiv.org/abs/2211.17192)
 
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+- **AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration** (Lin et al., 2023)  
+  *Pioneered activation-aware 4-bit weight quantization.*  
+  [https://arxiv.org/abs/2306.00978](https://arxiv.org/abs/2306.00978)
 
----
+- **GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints** (Ainslie et al., 2023)  
+  *Introduced Grouped-Query Attention bridging MHA quality and MQA memory speed.*  
+  [https://arxiv.org/abs/2305.13245](https://arxiv.org/abs/2305.13245)
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+- **FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning** (Dao, 2023)  
+  [https://arxiv.org/abs/2307.08691](https://arxiv.org/abs/2307.08691)
 
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+### Frameworks & Serving Engines
+- **vLLM Project**: [https://github.com/vllm-project/vllm](https://github.com/vllm-project/vllm)
+- **TensorRT-LLM (NVIDIA)**: [https://github.com/NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)
+- **TGI (Hugging Face Text Generation Inference)**: [https://github.com/huggingface/text-generation-inference](https://github.com/huggingface/text-generation-inference)

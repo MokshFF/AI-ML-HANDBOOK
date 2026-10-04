@@ -1,50 +1,31 @@
-# Fine Tuning - Interview Preparation & Question Bank
+# Fine-Tuning - Interview Questions
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **Fine Tuning**.
+### 1. Why does LoRA work, and how many parameters does it add?
+Task-specific weight updates empirically have low intrinsic rank, so $\Delta W=BA$ with small $r$ is expressive enough. It adds $r(d_{in}+d_{out})$ parameters per adapted matrix (e.g. $r=8$, $d=4096$: ~65k vs ~16.8M).
 
----
+### 2. Why initialise $B$ to zero and $A$ randomly?
+So $\Delta W=0$ at step 0 (the model starts exactly as the base) while gradients still flow to both factors (zero-init of both would give zero gradients).
 
-## 1. Conceptual & Theoretical Foundations
+### 3. How do you serve many LoRA adapters?
+Keep one frozen base model in memory and swap/batch adapters per request (unmerged), or merge for a single-tenant deployment to eliminate overhead.
 
-### Q1: What are the fundamental principles and assumptions underlying Fine Tuning?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
+### 4. What does QLoRA change vs. LoRA?
+The frozen base is stored in 4-bit (NF4, blockwise, double-quantized scales) and dequantized on the fly; adapters and gradients stay in higher precision. Much less memory; some quantization error and speed overhead.
 
-### Q2: How does Fine Tuning compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
+### 5. RAG vs. fine-tuning?
+RAG for dynamic, attributable knowledge; fine-tuning for behaviour/format/skills. See [`../rag/`](../rag/).
 
----
+### 6. Explain DPO and how it differs from PPO-based RLHF.
+DPO trains the policy directly on chosen/rejected pairs using a closed-form reparameterisation of the KL-regularised reward objective: no reward model, no sampling loop. PPO RLHF trains a reward model then optimises with on-policy rollouts; more moving parts, more flexibility.
 
-## 2. Practical Engineering & Troubleshooting
+### 7. What is reward hacking and what limits it?
+The policy exploits flaws in the proxy reward. Mitigations: KL penalty to the reference, reward-model ensembles, diverse human data, regular re-collection, adversarial evaluation.
 
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
+### 8. Your fine-tuned model got worse on general tasks. Why and how to fix it?
+Catastrophic forgetting/overfitting. Use lower LR/fewer epochs, PEFT, mix in general data, early stopping on a broad eval suite.
 
----
+### 9. How do you build a good SFT dataset?
+Diverse, high-quality, deduplicated, consistent format and template, response-only loss, decontaminated against evals, with a held-out split and human review samples.
 
-## 3. Production & Scalability Considerations
-
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
-
----
-
-## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+### Coding drill
+Write a `LoRALinear` whose merged output equals its unmerged output (see the test), then compute trainable parameter counts for a 7-layer toy model.

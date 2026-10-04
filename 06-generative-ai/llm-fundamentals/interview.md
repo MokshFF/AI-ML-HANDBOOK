@@ -1,50 +1,28 @@
-# LLM Fundamentals - Interview Preparation & Question Bank
+# LLM Fundamentals - Interview Questions
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **LLM Fundamentals**.
+### 1. Why does BPE avoid out-of-vocabulary tokens, and what are its downsides?
+It keeps single characters/bytes in the vocabulary, so any string can be segmented. Downsides: frequency-driven merges are not linguistically aligned, some languages/scripts become token-expensive, and numbers/rare strings split unpredictably.
 
----
+### 2. Why is positional information needed, and what are the main schemes?
+Attention treats the input as a set. Sinusoidal/learned absolute embeddings add position to inputs; RoPE rotates query/key pairs so scores depend on relative offsets; ALiBi adds a distance-proportional bias to scores. Extrapolation to longer contexts than seen in training differs by scheme.
 
-## 1. Conceptual & Theoretical Foundations
+### 3. Walk through one decoding step with a KV cache. Why is it exact?
+For the new token compute $q,k,v$; append $k,v$ to cached keys/values per layer; attend $q$ over all cached keys. Causal masking means earlier positions never depended on later ones, so their keys/values are unchanged and caching reproduces full recomputation exactly (the repo test asserts identical logits).
 
-### Q1: What are the fundamental principles and assumptions underlying LLM Fundamentals?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
+### 4. Temperature, top-k, top-p: what does each control and when does each fail?
+Temperature changes sharpness; top-k fixes the candidate count (too many tokens in confident contexts, too few in flat ones); top-p adapts the count to the distribution. All are heuristics; none fix factual errors.
 
-### Q2: How does LLM Fundamentals compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
+### 5. Estimate KV-cache memory for a model.
+$2\times L\times n_{kv}\times d_{head}\times T\times B\times \text{bytes}$. Grouped-query attention lowers $n_{kv}$; quantizing the cache lowers bytes. See [`../inference-optimization/`](../inference-optimization/).
 
----
+### 6. What do scaling laws say, and what are their limits?
+Loss is predictable from $N$, $D$, compute. Limits: fits are specific to data/architecture, say little about downstream/emergent behaviour, and ignore inference cost, data quality, and data exhaustion.
 
-## 2. Practical Engineering & Troubleshooting
+### 7. Why can a long context window still fail?
+Compute/memory growth, positional extrapolation, and attention dilution; evidence shows degraded use of mid-context information. Retrieval and structure often beat blindly stuffing context.
 
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
+### 8. Pretraining vs. fine-tuning vs. in-context learning?
+Pretraining learns general next-token statistics; fine-tuning updates weights for a behaviour/domain; in-context learning conditions behaviour on prompt examples with no weight update.
 
----
-
-## 3. Production & Scalability Considerations
-
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
-
----
-
-## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+### Coding drill
+Implement `top_p_filter(probs, p)` so it keeps the *smallest* set with cumulative mass $\ge p$ (hint: compare the cumulative mass *before* each token with $p$). See `filter_logits`.

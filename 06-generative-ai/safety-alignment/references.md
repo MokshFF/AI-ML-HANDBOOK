@@ -1,29 +1,25 @@
-# Safety Alignment - References & Further Reading
+# AI Safety & Alignment References & Seminal Papers
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Safety Alignment**.
+### Seminal Papers
+- **A Watermark for Large Language Models** (Kirchenbauer et al., 2023)  
+  *Introduced the green-list logit biasing watermarking algorithm and z-score verification.*  
+  [https://arxiv.org/abs/2301.10226](https://arxiv.org/abs/2301.10226)
 
----
+- **Constitutional AI: Harmlessness from AI Feedback** (Bai et al., 2022 - Anthropic)  
+  *Introduced self-critique, RLAIF, and constitutional alignment principles.*  
+  [https://arxiv.org/abs/2212.08073](https://arxiv.org/abs/2212.08073)
 
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+- **Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection** (Greshake et al., 2023)  
+  *Comprehensive taxonomy and threat analysis of indirect prompt injection attacks.*  
+  [https://arxiv.org/abs/2302.12173](https://arxiv.org/abs/2302.12173)
 
----
+- **Universal and Transferable Adversarial Attacks on Aligned Language Models** (Zou et al., 2023)  
+  *Gradient-based adversarial suffix attacks on aligned LLMs.*  
+  [https://arxiv.org/abs/2307.15043](https://arxiv.org/abs/2307.15043)
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+- **Training a Helpful and Harmless Assistant with Reinforcement Learning from Human Feedback** (Bai et al., 2022)  
+  [https://arxiv.org/abs/2204.05862](https://arxiv.org/abs/2204.05862)
 
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+### Standards & Frameworks
+- **OWASP Top 10 for Large Language Model Applications**: [https://owasp.org/www-project-top-10-for-large-language-model-applications/](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+- **NIST AI Risk Management Framework (AI RMF 1.0)**: [https://www.nist.gov/itl/ai-risk-management-framework](https://www.nist.gov/itl/ai-risk-management-framework)
