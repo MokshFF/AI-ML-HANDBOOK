@@ -6,7 +6,7 @@ Curated citations, seminal research papers, official documentation, and authorit
 
 ## 1. Seminal Research Papers
 - Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+- For literature reading strategies, refer to [`../../11-research-papers/`](../../11-research-papers/).
 
 ---
 

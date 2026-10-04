@@ -1,24 +1,16 @@
-# Curated Resources & References (`12-resources`)
+# AI/ML Resources & Reference Directory (`12-resources`)
 
 ## Overview
-Vetted compendium of high-impact textbooks, benchmark suites, community datasets, and developer tools.
+Comprehensive, strictly curated repository of authoritative learning materials, official documentation, open datasets, production tools, and research communities.
 
-## Subtopics & Navigation
-| Directory | Topic | Scope |
-| :--- | :--- | :--- |
-| [`books-and-courses/`](./books-and-courses/) | **Books And Courses** | Curated bibliography of essential textbooks, peer-reviewed monographs, and high-impact online courses. |
-| [`datasets-benchmarks/`](./datasets-benchmarks/) | **Datasets Benchmarks** | Authoritative sources for open datasets, benchmark leaderboards, and evaluation corpora across domains. |
-| [`tools-and-frameworks/`](./tools-and-frameworks/) | **Tools And Frameworks** | Reference list of essential libraries, developer tools, hardware acceleration frameworks, and SDKs. |
-
-## Standard Directory Schema
-Every topic directory in this module follows our standard five-component structure:
-- `README.md` - Module introduction, learning objectives, and concept matrix
-- `notebook.ipynb` - Reproducible, runnable interactive notebook
-- `code/` - Clean, modular Python scripts and helper utilities
-- `interview.md` - Technical screening questions, edge cases, and design discussions
-- `references.md` - Research papers, textbooks, and documentation
-
-## Prerequisites
-Before beginning this module, review:
-- Foundational math and coding prerequisites in [`../00-prerequisites/`](../00-prerequisites/)
-- The end-to-end learning pathways defined in [`../ROADMAP.md`](../ROADMAP.md)
+## Resource Index
+| Resource Document | Scope & Contents |
+| :--- | :--- |
+| [**01. Authoritative Books**](./01-books.md) | Fundamental mathematical treatises, deep learning textbooks, NLP compendiums, and system design guides. |
+| [**02. Academic Courses**](./02-courses.md) | Open university lectures from Stanford (CS229, CS224N, CS231N), MIT, UC Berkeley, and industry bootcamps. |
+| [**03. Official Documentation**](./03-official-documentation.md) | Direct links to primary documentation for PyTorch, Scikit-Learn, vLLM, Triton, MLflow, and DVC. |
+| [**04. Benchmark Datasets**](./04-datasets.md) | Standard research benchmarks spanning vision (ImageNet, COCO), language (Common Crawl, SQuAD), and code (SWE-bench). |
+| [**05. Python Libraries**](./05-libraries.md) | Categorized ecosystem guide spanning tensor compute, classical modeling, tokenization, and quantization. |
+| [**06. MLOps Tools**](./06-tools.md) | Serving engines (vLLM, Triton), workflow orchestrators (Argo, Airflow), and monitoring platforms (Evidently). |
+| [**07. Research Websites**](./07-research-websites.md) | Preprint archives (arXiv), leaderboards (Papers With Code), and frontier research lab blogs (DeepMind, OpenAI, Anthropic). |
+| [**08. Professional Communities**](./08-communities.md) | High-signal engineering communities (MLOps Community, Hugging Face Discord, EleutherAI, PyTorch Forums). |

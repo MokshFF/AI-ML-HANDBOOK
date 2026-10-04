@@ -93,9 +93,9 @@ flowchart TD
 *Target Audience*: Researchers and graduate students focused on novel model architectures, theoretical analysis, and paper implementations.
 1. Complete mathematical rigor in [`00-prerequisites`](00-prerequisites/)
 2. [`02-deep-learning`](02-deep-learning/) and [`03-nlp`](03-nlp/)
-3. [`11-research-papers/paper-reading-guide`](11-research-papers/paper-reading-guide/)
-4. [`11-research-papers/foundational-papers`](11-research-papers/foundational-papers/)
-5. [`11-research-papers/modern-llm-breakthroughs`](11-research-papers/modern-llm-breakthroughs/)
+3. [`11-research-papers/02-deep-learning.md`](11-research-papers/02-deep-learning.md)
+4. [`11-research-papers/04-transformers.md`](11-research-papers/04-transformers.md)
+5. [`11-research-papers/07-generative-ai.md`](11-research-papers/07-generative-ai.md)
 6. [`06-generative-ai/safety-alignment`](06-generative-ai/safety-alignment/) (RLHF, DPO mechanics)
 7. Code re-implementation of select papers in [`09-projects/research`](09-projects/research/)
 

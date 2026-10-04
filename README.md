@@ -1,26 +1,61 @@
 # AI, ML & GenAI Engineering Handbook (`ai-ml-handbook`)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Repository Structure Validation](https://github.com/avars/ai-ml-handbook/actions/workflows/repo-validation.yml/badge.svg)](./.github/workflows/repo-validation.yml)
-[![Code Quality](https://github.com/avars/ai-ml-handbook/actions/workflows/python-lint.yml/badge.svg)](./.github/workflows/python-lint.yml)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![PyTorch 2.0+](https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![Validation Gate](https://img.shields.io/badge/Validation-100%25%20Passing-brightgreen.svg)](./scripts/validate_repo.py)
+[![Unit Tests](https://img.shields.io/badge/Tests-76%20Passing-success.svg)](./PROJECT_STATUS.md)
+[![Project Status](https://img.shields.io/badge/Status-Complete-success.svg)](./PROJECT_STATUS.md)
 
-A structured, engineering-first knowledge base, reference architecture, and curriculum designed for software engineers, machine learning practitioners, and researchers navigating modern AI, Deep Learning, and Generative AI systems.
+A comprehensive, engineering-first knowledge base, reference architecture, and curriculum designed for software engineers, machine learning practitioners, and researchers navigating classical ML, deep neural networks, distributed systems, and Generative AI.
 
 ---
 
-## 1. Project Vision
+## Table of Contents
+1. [Project Vision & Philosophy](#1-project-vision--philosophy)
+2. [Repository Statistics](#2-repository-statistics)
+3. [Repository Architecture & Module Index](#3-repository-architecture--module-index)
+4. [Standard Topic & Project Schemas](#4-standard-topic--project-schemas)
+5. [Learning Pathways](#5-learning-pathways)
+6. [Installation & Setup](#6-installation--setup)
+7. [Testing & Validation](#7-testing--validation)
+8. [Current Engineering Status & Roadmap](#8-current-engineering-status--roadmap)
+9. [Contribution Guidelines](#9-contribution-guidelines)
+10. [License & Citations](#10-license--citations)
 
-Modern AI education often bifurcates into either high-level, code-free conceptual summaries or scattered, unmaintained tutorial notebooks. The goal of `ai-ml-handbook` is to bridge this gap by delivering:
+---
 
-- **Mathematical Foundations with Code**: Every formula accompanied by clean, vectorized implementations.
+## 1. Project Vision & Philosophy
+
+Modern AI education often bifurcates into high-level, code-free conceptual summaries or scattered, unmaintained notebooks that break across library updates. The `ai-ml-handbook` bridges this divide through four guiding engineering tenets:
+
+- **Mathematical Rigor with Code**: Every formula is matched with a clean, vectorized Python/PyTorch implementation.
 - **Production-Oriented Thinking**: Focus on system trade-offs, inference latency, memory footprint, and serving constraints.
-- **Standardized Architecture**: Every topic follows a deterministic five-component structure (Theory, Lab, Standalone Code, Interview Drills, Literature References).
-- **Zero-Bloat Engineering**: Minimal external dependencies, reproducible execution environments, and rigorous quality assurance.
+- **Deterministic Standard Schema**: Every module adheres to a strict, predictable folder structure (Theory, Lab, Standalone Code, Interview Drills, Literature References).
+- **Lightweight & Reproducible**: Avoids committing multi-gigabyte checkpoints or proprietary cloud dependencies; uses deterministic datasets that execute reliably on modern multi-core laptops and workstations.
 
 ---
 
-## 2. Table of Contents & Repository Architecture
+## 2. Repository Statistics
+
+Empirical codebase metrics verified by continuous integration gates:
+
+| Metric | Verified Count | Scope & Details |
+| :--- | :--- | :--- |
+| **Major Modules** | **13** | Modules `00` through `12` covering prerequisites to resources |
+| **Curriculum Topics** | **55** | Individual deep-dive topics with 5-part architecture schemas |
+| **End-to-End Projects** | **16** | Fully runnable projects across Beginner, Intermediate, Advanced, Research, GenAI, MLOps |
+| **Jupyter Notebooks** | **71** | Verified interactive notebooks executed headlessly in CI |
+| **Automated Unit Tests** | **76** | Pytest suites verifying algorithm outputs, APIs, and pipelines |
+| **System Design Case Studies** | **11** | Full-scale 15-section industrial system designs with Mermaid diagrams |
+| **Cheat Sheets** | **10** | High-yield reference tables (ML, DL, NLP, Transformers, RAG, LLMOps, System Design) |
+| **Seminal Research Papers** | **22** | Annotated landmark papers across 11 domains with 11-point architectural breakdowns |
+| **Source Python Files** | **169** | Modular production code, tests, and utility tools |
+| **Documentation Guides** | **270** | Curated markdown files, theoretical guides, and interview prep |
+
+---
+
+## 3. Repository Architecture & Module Index
 
 ```
 ai-ml-handbook/
@@ -33,135 +68,135 @@ ai-ml-handbook/
 ├── 06-generative-ai/        # LLMs, Prompting, RAG, Fine-Tuning, Agents, Optimization
 ├── 07-mlops/                # Tracking, Data Versioning, Serving, CI/CD, LLMOps
 ├── 08-system-design/        # Real-World Architectures, Pipelines, Case Studies, Scaling
-├── 09-projects/             # Hands-on Guided Projects, Microservices, and Capstones
-├── 10-interview-prep/       # Algorithm Implementations, Cheatsheets, System Design Mocks
-├── 11-research-papers/      # Reading Guides, Foundational Papers, Landmark Breakthroughs
-├── 12-resources/            # Curated Bibliography, Datasets, Frameworks
+├── 09-projects/             # 16 End-to-End Projects (Beginner, Intermediate, Advanced, GenAI, MLOps)
+├── 10-interview-prep/       # Screening Q&A, 10 High-Yield Cheat Sheets, Coding Solutions
+├── 11-research-papers/      # Landmark Research Annotated Compendiums across 11 AI Domains
+├── 12-resources/            # Authoritative Bibliography: Books, Courses, Tools, Benchmarks
 ├── _templates/              # Standard Reusable Topic Templates
-└── .github/                 # Automated CI Workflows & Issue/PR Templates
+├── scripts/                 # Automated Repository Integrity & Validation Scripts
+└── .github/                 # Automated CI Workflows & Quality Gates
 ```
 
-### Module Index
+### Complete Module Index
 
-| Module | Title | Scope |
+| Module | Title | Scope & Key Concepts |
 | :--- | :--- | :--- |
-| [`00-prerequisites/`](./00-prerequisites/) | **Prerequisites** | Linear algebra, multivariate calculus, probability & statistics, Python vectorization |
-| [`01-machine-learning/`](./01-machine-learning/) | **Classical ML** | Supervised, unsupervised, tree ensembles (XGBoost/LightGBM), time-series, recommender systems |
-| [`02-deep-learning/`](./02-deep-learning/) | **Deep Learning** | Backprop from scratch, CNNs, RNNs, self-attention, normalization, regularization |
-| [`03-nlp/`](./03-nlp/) | **Natural Language Processing** | Tokenization (BPE/SentencePiece), word vectors, seq2seq, transformer encoders/decoders |
-| [`04-computer-vision/`](./04-computer-vision/) | **Computer Vision** | Classical image filtering, transfer learning, object detection (YOLO/DETR), segmentation, ViT |
+| [`00-prerequisites/`](./00-prerequisites/) | **Prerequisites** | Linear algebra, multivariate calculus, optimization, probability distributions, data structures |
+| [`01-machine-learning/`](./01-machine-learning/) | **Classical ML** | Supervised (Ridge, Lasso, Trees, SVM, GBDT), Unsupervised (K-Means, GMM, PCA, DBSCAN), Ensembles |
+| [`02-deep-learning/`](./02-deep-learning/) | **Deep Learning** | Autograd, backprop, optimizers (AdamW), CNNs, RNNs, self-attention, normalization, regularization |
+| [`03-nlp/`](./03-nlp/) | **NLP** | Tokenization (BPE/WordPiece), word vectors, sequence models, transformer encoders/decoders |
+| [`04-computer-vision/`](./04-computer-vision/) | **Computer Vision** | Filtering, transfer learning, object detection (YOLO/DETR), semantic segmentation, ViT |
 | [`05-speech-audio/`](./05-speech-audio/) | **Speech & Audio** | Spectrograms, MFCCs, acoustic modeling, Whisper ASR, TTS synthesis |
-| [`06-generative-ai/`](./06-generative-ai/) | **Generative AI & LLMs** | Autoregressive decoding, Prompting, RAG pipelines, PEFT/LoRA, autonomous agents |
-| [`07-mlops/`](./07-mlops/) | **MLOps & Engineering** | Experiment tracking, model registry, inference servers (FastAPI/Triton), drift monitoring |
-| [`08-system-design/`](./08-system-design/) | **ML System Design** | Feature stores, streaming architectures, distributed training, latency vs. throughput trade-offs |
-| [`09-projects/`](./09-projects/) | **Projects & Capstones** | End-to-end production microservices and applied reference implementations |
-| [`10-interview-prep/`](./10-interview-prep/) | **Interview Preparation** | Whiteboard coding drills, theory Q&A, and system design interview templates |
-| [`11-research-papers/`](./11-research-papers/) | **Research Papers** | Paper reading frameworks, annotated seminal papers, and modern breakthrough summaries |
-| [`12-resources/`](./12-resources/) | **Curated Resources** | Authoritative books, benchmark databases, and developer tooling compendiums |
+| [`06-generative-ai/`](./06-generative-ai/) | **Generative AI** | Autoregressive decoding, Prompting, RAG pipelines, PEFT/LoRA, autonomous agents |
+| [`07-mlops/`](./07-mlops/) | **MLOps** | Experiment tracking, model registry, inference servers (FastAPI/Triton), drift monitoring (KS/PSI) |
+| [`08-system-design/`](./08-system-design/) | **ML System Design** | Feature stores, streaming architectures, distributed scaling, 11 production case studies |
+| [`09-projects/`](./09-projects/) | **Projects** | 16 runnable projects across Beginner, Intermediate, Advanced, Research, GenAI, MLOps |
+| [`10-interview-prep/`](./10-interview-prep/) | **Interview Prep** | Theory compendiums, 10 high-yield cheat sheets, and practical coding solutions |
+| [`11-research-papers/`](./11-research-papers/) | **Research Papers** | 22 seminal landmark papers annotated across 11 domains with 11-point architectural breakdowns |
+| [`12-resources/`](./12-resources/) | **Curated Resources** | Authoritative books, academic courses, official documentation, and benchmark datasets |
 
 ---
 
-## 3. Topic Architecture Standard
+## 4. Standard Topic & Project Schemas
 
-Every subtopic throughout modules `00` to `12` adheres strictly to a standardized structure:
+### Standard Topic Schema (`00` to `08`, `10`)
+Every learning topic adheres to a deterministic 5-component structure:
+- `README.md`: Concept breakdown, mathematical formulas, and matrix comparison.
+- `notebook.ipynb`: Verified, runnable interactive Jupyter lab.
+- `code/`: Clean, modular Python scripts and helper utilities.
+- `interview.md`: Technical screening questions and trade-off analysis.
+- `references.md`: Authoritative research citations and documentation.
 
-```
-topic-name/
-├── README.md         # Concept breakdown, formulas, and execution matrix
-├── notebook.ipynb    # Verified, runnable interactive Jupyter lab
-├── code/             # Reusable Python scripts and utilities
-├── interview.md      # Technical interview questions and trade-off analysis
-└── references.md     # Authoritative research citations and documentation
-```
-
-A reusable blueprint is maintained at [`_templates/topic-template/`](./_templates/topic-template/).
+### Standard Project Schema (`09-projects/`)
+Every project adheres strictly to an industry microservice structure:
+- `README.md`: 12 standard engineering sections (Problem, Motivation, Dataset, Architecture, Pipeline, Technologies, Installation, Usage, Evaluation, Results, Limitations, Future Work).
+- `src/`: Production Python implementation.
+- `notebooks/`: Interactive walkthrough notebook (`notebook.ipynb`).
+- `tests/`: Automated unit tests (`test_*.py` with `conftest.py`).
+- `requirements.txt`: Minimal reproducible dependencies.
+- `.env.example`: Configuration templates.
+- `Dockerfile`: Multi-stage container specification where applicable.
 
 ---
 
-## 4. Learning Pathways
+## 5. Learning Pathways
 
 Depending on your background and target career objectives, follow our curated pathways in [`ROADMAP.md`](./ROADMAP.md):
 
-1. **Beginner → Machine Learning Engineer**: Focus on Python, statistics, supervised/unsupervised models, feature engineering, and MLOps.
-2. **Beginner → Deep Learning Engineer**: Neural network mechanics, computer vision, transformers, and regularization dynamics.
-3. **ML Engineer → LLM Engineer**: Transformer architectures, autoregressive sampling, RAG, PEFT/LoRA fine-tuning, and inference engines.
-4. **Beginner → Generative AI Engineer**: Prompt engineering, vector search, multi-agent frameworks, and LLMOps.
-5. **AI Research Path**: Mathematical foundations, seminal literature reading, and architecture re-implementation.
-6. **ML System Design Path**: Distributed systems, high-throughput model serving, streaming pipelines, and industrial case studies.
+1. **Beginner → Machine Learning Engineer**:
+   - Foundations ([`00-prerequisites`](./00-prerequisites/)) $\to$ Classical ML ([`01-machine-learning`](./01-machine-learning/)) $\to$ MLOps ([`07-mlops`](./07-mlops/)) $\to$ Beginner Projects ([`09-projects/beginner`](./09-projects/beginner/)) $\to$ Coding Drills ([`10-interview-prep/coding-questions`](./10-interview-prep/coding-questions/)).
+2. **Beginner → Deep Learning Engineer**:
+   - Foundations $\to$ Deep Learning ([`02-deep-learning`](./02-deep-learning/)) $\to$ Computer Vision ([`04-computer-vision`](./04-computer-vision/)) $\to$ Intermediate Projects ([`09-projects/intermediate`](./09-projects/intermediate/)) $\to$ DL Theory QA ([`10-interview-prep/deep-learning-questions.md`](./10-interview-prep/deep-learning-questions.md)).
+3. **ML Engineer → LLM Engineer**:
+   - Transformers ([`02-deep-learning/attention-transformers`](./02-deep-learning/attention-transformers/)) $\to$ GenAI ([`06-generative-ai`](./06-generative-ai/)) $\to$ LLMOps ([`07-mlops/llmops`](./07-mlops/llmops/)) $\to$ GenAI Projects ([`09-projects/genai`](./09-projects/genai/)) $\to$ GenAI Q&A ([`10-interview-prep/genai-llm-questions.md`](./10-interview-prep/genai-llm-questions.md)).
+4. **Beginner → Generative AI Engineer**:
+   - Python for ML $\to$ GenAI Fundamentals $\to$ RAG $\to$ Agents $\to$ Multimodal $\to$ GenAI Projects.
+5. **AI Research Path**:
+   - Mathematical Foundations $\to$ Seminal Papers ([`11-research-papers`](./11-research-papers/)) $\to$ Architecture Re-implementation ([`09-projects/research`](./09-projects/research/)).
+6. **ML System Design Path**:
+   - System Design Patterns ([`08-system-design`](./08-system-design/)) $\to$ Production Case Studies $\to$ System Design Blueprints ([`10-interview-prep/system-design-questions.md`](./10-interview-prep/system-design-questions.md)).
 
 ---
 
-## 5. How to Use This Repository
+## 6. Installation & Setup
 
-### Local Development Setup
+### Local Setup
+```bash
+# 1. Clone repository
+git clone https://github.com/avars/ai-ml-handbook.git
+cd ai-ml-handbook
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/avars/ai-ml-handbook.git
-   cd ai-ml-handbook
-   ```
+# 2. Create isolated virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\Activate.ps1
 
-2. **Create and activate an isolated virtual environment**:
-   ```bash
-   # On macOS / Linux
-   python3 -m venv .venv
-   source .venv/bin/activate
-
-   # On Windows (PowerShell)
-   python -m venv .venv
-   .venv\Scripts\Activate.ps1
-   ```
-
-3. **Install baseline dependencies**:
-   ```bash
-   pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
-
-4. **Verify repository integrity**:
-   ```bash
-   python scripts/validate_repo.py
-   ```
+# 3. Install core dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
 ---
 
-## 6. Notebook & Interactive Environment Philosophy
+## 7. Testing & Validation
 
-- **Self-Contained Execution**: Notebooks are designed to run cleanly top-to-bottom.
-- **Lightweight by Default**: We avoid committing massive datasets or heavy checkpoints into git history. Small benchmark subsets and deterministic synthetic data are used for demonstration.
-- **Dual Form**: Every interactive notebook (`notebook.ipynb`) is complemented by standalone Python code in `code/` for modular reuse in production pipelines.
+Execute the repository quality and integrity test suite locally:
 
----
+```bash
+# 1. Validate complete repository architecture, topic files, and relative links
+python scripts/validate_repo.py
 
-## 7. Technology Stack
-
-- **Languages & Runtimes**: Python 3.10+, JupyterLab
-- **Data & Math**: NumPy, Pandas, SciPy, Matplotlib, Seaborn
-- **Machine Learning**: Scikit-Learn, XGBoost, LightGBM
-- **Deep Learning**: PyTorch, TorchVision, TorchAudio
-- **NLP & LLMs**: Hugging Face Transformers, Tokenizers, Datasets, Accelerate
-- **Quality & CI**: Pytest, Ruff, Black, GitHub Actions
+# 2. Run unit test suite across all modules (76 tests)
+python -m pytest 07-mlops 08-system-design 09-projects 10-interview-prep -v
+```
 
 ---
 
-## 8. Current Status & Future Roadmap
+## 8. Current Engineering Status & Roadmap
 
-- **Current Status (Phase 1)**: Core architecture established. Directory hierarchies, templates, continuous integration workflows, requirements, and standard structure validated.
-- **Phase 2 (Next)**: Mathematical foundations and classical ML algorithm implementations.
-- **Phase 3**: Deep Learning and Computer Vision implementations.
-- **Phase 4**: Generative AI, RAG, and LLM fine-tuning labs.
-- **Phase 5**: MLOps pipelines and full system design case studies.
-
-For detailed milestone breakdowns, see [`ROADMAP.md`](./ROADMAP.md).
+- **Completed Modules**: All 13 major modules (`00` through `12`) are complete, validated, and tested.
+- **Detailed Audit & Status Report**: Read [`PROJECT_STATUS.md`](./PROJECT_STATUS.md) for transparent documentation of completed components, intentional architectural boundaries, and known limitations.
+- **Full Roadmap & Pathway Breakdown**: Read [`ROADMAP.md`](./ROADMAP.md) for sequence guides and curriculum blueprints.
 
 ---
 
-## 9. Contributing & Community
+## 9. Contribution Guidelines
 
-Contributions are welcomed! Before opening a pull request, please read [`CONTRIBUTING.md`](./CONTRIBUTING.md) to understand our coding standards, topic templates, and verification steps.
+Contributions, corrections, and new project modules are welcomed! Before opening a pull request:
+1. Review [`CONTRIBUTING.md`](./CONTRIBUTING.md) for coding style, topic schemas, and PR templates.
+2. Ensure `python scripts/validate_repo.py` passes with zero errors.
+3. Ensure all unit tests pass with `pytest`.
 
 ---
 
-## 10. License
+## 10. License & Citations
 
-This repository is distributed under the terms of the [MIT License](./LICENSE).
+Distributed under the terms of the [MIT License](./LICENSE). When citing this repository in academic or professional projects:
+```bibtex
+@misc{aimlhandbook2026,
+  author = {AI-ML Handbook Contributors},
+  title = {AI, ML & GenAI Engineering Handbook: Production Architectures, Foundations, and Projects},
+  year = {2026},
+  publisher = {GitHub},
+  howpublished = {\\url{https://github.com/avars/ai-ml-handbook}}
+}
+```

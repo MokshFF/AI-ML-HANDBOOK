@@ -126,6 +126,41 @@ def validate_repository(root_dir: Path) -> bool:
                                         errors.append(f"Failed to parse notebook JSON at {nb_path}: {e}")
             continue
 
+        if mod == "11-research-papers":
+            expected_papers = [
+                "01-machine-learning.md",
+                "02-deep-learning.md",
+                "03-cnn.md",
+                "04-transformers.md",
+                "05-nlp.md",
+                "06-computer-vision.md",
+                "07-generative-ai.md",
+                "08-rag.md",
+                "09-agents.md",
+                "10-multimodal.md",
+                "11-reinforcement-learning.md",
+            ]
+            for ep in expected_papers:
+                if not (mod_dir / ep).exists():
+                    errors.append(f"Research papers module is missing '{ep}'")
+            continue
+
+        if mod == "12-resources":
+            expected_resources = [
+                "01-books.md",
+                "02-courses.md",
+                "03-official-documentation.md",
+                "04-datasets.md",
+                "05-libraries.md",
+                "06-tools.md",
+                "07-research-websites.md",
+                "08-communities.md",
+            ]
+            for er in expected_resources:
+                if not (mod_dir / er).exists():
+                    errors.append(f"Resources module is missing '{er}'")
+            continue
+
         for sub in mod_dir.iterdir():
             if sub.is_dir() and not sub.name.startswith("."):
                 topic_count += 1
