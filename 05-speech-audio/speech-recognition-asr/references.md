@@ -1,29 +1,37 @@
-# Speech Recognition ASR - References & Further Reading
+# Automatic Speech Recognition (ASR) - References & Further Reading
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Speech Recognition ASR**.
+Seminal research papers, benchmark corpora, and milestone architectures in automatic speech recognition.
 
 ---
 
 ## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+
+- **Connectionist Temporal Classification: Labelling Unsegmented Sequence Data with Recurrent Neural Networks (CTC)** (2006)
+  - *Authors*: Alex Graves, Santiago Fernández, Faustino Gomez, Jürgen Schmidhuber
+  - *Conference*: ICML 2006
+  - *Contribution*: Introduced CTC loss and forward-backward dynamic programming for unaligned sequence transcription.
+
+- **wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations** (2020)
+  - *Authors*: Alexei Baevski, Yuhao Zhou, Abdelrahman Mohamed, Michael Auli
+  - *Paper*: [arXiv:2006.11477](https://arxiv.org/abs/2006.11477)
+  - *Contribution*: Pioneered self-supervised masked contrastive pre-training from raw audio waveforms.
+
+- **Conformer: Convolution-augmented Transformer for Speech Recognition** (2020)
+  - *Authors*: Anmol Gulati, James Qin, Chung-Cheng Chiu, Niki Parmar, Yu Zhang, Jiahui Yu, Wei Han, Shibo Wang, Zhengdong Zhang, Yonghui Wu, Ruoming Pang
+  - *Paper*: [arXiv:2005.08100](https://arxiv.org/abs/2005.08100)
+  - *Contribution*: Combined self-attention with depthwise convolution, establishing the leading acoustic modeling backbone.
+
+- **Robust Speech Recognition via Large-Scale Weak Supervision (Whisper)** (2022 / 2023)
+  - *Authors*: Alec Radford, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, Ilya Sutskever (OpenAI)
+  - *Paper*: [arXiv:2212.04356](https://arxiv.org/abs/2212.04356)
+  - *Contribution*: Demonstrated zero-shot robust multilingual ASR and translation via 680,000 hours of weakly supervised audio-to-text pre-training.
 
 ---
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+## 2. Textbooks & Corpora
 
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+- **Speech and Language Processing (3rd ed. draft)**
+  - *Authors*: Dan Jurafsky, James H. Martin
+  - *Chapter*: Chapter 16: Automatic Speech Recognition and Text-to-Speech.
+- **LibriSpeech: An ASR Corpus Based on Public Domain Audio Books**
+  - *Authors*: Vassil Panayotov, Guoguo Chen, Daniel Povey, Sanjeev Khudanpur (ICASSP 2015).

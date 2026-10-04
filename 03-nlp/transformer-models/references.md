@@ -1,29 +1,37 @@
-# Transformer Models - References & Further Reading
+# Transformer Models & Downstream Heads - References & Further Reading
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Transformer Models**.
+Seminal research papers, benchmark datasets, and documentation for Transformer encoder architectures and task adaptation.
 
 ---
 
 ## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+
+- **BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding** (2018 / 2019)
+  - *Authors*: Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova
+  - *Paper*: [arXiv:1810.04805](https://arxiv.org/abs/1810.04805)
+  - *Contribution*: Introduced Masked Language Modeling (MLM), Next Sentence Prediction (NSP), and fine-tuning paradigms across 11 NLP benchmarks.
+
+- **RoBERTa: A Robustly Optimized BERT Pretraining Approach** (2019)
+  - *Authors*: Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov
+  - *Paper*: [arXiv:1907.11692](https://arxiv.org/abs/1907.11692)
+  - *Contribution*: Demonstrated that BERT was significantly undertrained; removing NSP and training with larger mini-batches and dynamic masking substantially improves performance.
+
+- **Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks** (2019)
+  - *Authors*: Nils Reimers, Iryna Gurevych
+  - *Paper*: [arXiv:1908.10084](https://arxiv.org/abs/1908.10084)
+  - *Contribution*: Evaluated pooling strategies on top of BERT representations for semantic search and bi-encoder architectures.
+
+- **SQuAD: 100,000+ Questions for Machine Comprehension of Text** (2016)
+  - *Authors*: Pranav Rajpurkar, Jian Zhang, Konstantin Lopyrev, Percy Liang
+  - *Paper*: [arXiv:1606.05250](https://arxiv.org/abs/1606.05250)
+  - *Contribution*: Established the canonical extractive question answering benchmark.
 
 ---
 
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
+## 2. Textbooks & Guides
 
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+- **Speech and Language Processing (3rd ed. draft)**
+  - *Authors*: Dan Jurafsky, James H. Martin
+  - *Chapter*: Chapter 11: Contextual Embeddings and Transformers.
+- **Hugging Face Transformers Documentation**
+  - *URL*: [https://huggingface.co/docs/transformers](https://huggingface.co/docs/transformers)

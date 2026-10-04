@@ -1,50 +1,64 @@
-# Semantic Segmentation - Interview Preparation & Question Bank
+# Semantic Segmentation - Technical Interview Preparation
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **Semantic Segmentation**.
-
----
-
-## 1. Conceptual & Theoretical Foundations
-
-### Q1: What are the fundamental principles and assumptions underlying Semantic Segmentation?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
-
-### Q2: How does Semantic Segmentation compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
+A curated question bank covering U-Net architectures, transposed convolutions vs. bilinear upsampling, checkerboard artifacts, Dice Loss derivatives, and boundary refinement.
 
 ---
 
-## 2. Practical Engineering & Troubleshooting
+## 1. Architectural & Theoretical Foundations
 
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
+### Q1: Compare Transposed Convolution (Deconvolution) vs. Bilinear Upsampling + Conv2d. Why do transposed convolutions often cause "checkerboard artifacts"?
+- **Transposed Convolution Mechanics**:
+  Transposed convolution places filter weights into an expanded grid with stride $s$, learning upsampling parameters.
+- **Checkerboard Artifacts**:
+  When kernel size $k$ is not evenly divisible by stride $s$ (e.g. $k=3, s=2$), adjacent filter strides produce uneven overlap in output pixel updates. Some pixels receive contributions from two filter locations while adjacent pixels receive contributions from only one. This creates a high-frequency grid-like "checkerboard" texture artifact in reconstructed feature maps.
+- **Modern Solution**:
+  Replace `ConvTranspose2d` with parameter-free **Bilinear / Nearest-Neighbor Upsampling** followed by a standard $3 \times 3$ `Conv2d`. This guarantees uniform spatial interpolation with zero checkerboard patterns.
 
 ---
 
-## 3. Production & Scalability Considerations
-
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
+### Q2: Why is Cross-Entropy Loss inadequate for medical image segmentation, and how does Soft Dice Loss resolve the issue?
+- **The Issue with Cross-Entropy**:
+  Cross-entropy treats every single pixel independently. If an organ or lesion covers $100$ pixels in a $1000 \times 1000$ image ($0.01\%$ foreground), a trivial model predicting "all background" achieves $99.99\%$ pixel accuracy and near-zero cross-entropy loss despite failing completely on the clinical task.
+- **Why Soft Dice Loss Solves It**:
+  Soft Dice loss measures global set overlap rather than independent pixel classifications:
+  $$\mathcal{L}_{\text{Dice}} = 1 - \frac{2 |\mathbf{P} \cap \mathbf{G}|}{|\mathbf{P}| + |\mathbf{G}|}$$
+  Because the denominator scales with the size of the true foreground plus predicted foreground rather than total image area, small target regions are weighted proportionally to their relative overlap rather than drowned out by background mass.
 
 ---
 
-## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+### Q3: What is the difference between Semantic, Instance, and Panoptic Segmentation?
+- **Semantic Segmentation**: Predicts class labels per pixel. No distinction is made between separate object instances (e.g., five overlapping cars are merged into a single mask).
+- **Instance Segmentation**: Detects and delineates individual countable objects ("things"). Background pixels (e.g., roads, grass, buildings) are ignored.
+- **Panoptic Segmentation**: Complete scene understanding. Every pixel is assigned a semantic class and every countable object is assigned an instance ID.
+
+---
+
+## 2. Whiteboard Coding Drills
+
+### Q4: Implement a differentiable Soft Dice Loss module in PyTorch for multi-class segmentation.
+```python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class MultiClassDiceLoss(nn.Module):
+    def __init__(self, smooth: float = 1.0):
+        super().__init__()
+        self.smooth = smooth
+
+    def forward(self, logits: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        """
+        logits: (B, C, H, W)
+        targets: (B, H, W) integer class indices
+        """
+        num_classes = logits.shape[1]
+        probs = F.softmax(logits, dim=1)
+        targets_one_hot = F.one_hot(targets, num_classes=num_classes).permute(0, 3, 1, 2).float()
+
+        dims = (0, 2, 3)
+        intersection = torch.sum(probs * targets_one_hot, dim=dims)
+        cardinality = torch.sum(probs * probs + targets_one_hot * targets_one_hot, dim=dims)
+
+        dice = (2.0 * intersection + self.smooth) / (cardinality + self.smooth)
+        return 1.0 - torch.mean(dice)
+```
