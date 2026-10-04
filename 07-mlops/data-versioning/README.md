@@ -1,39 +1,71 @@
-# Data Versioning
+# Data & Feature Versioning: DVC & Feature Stores
 
-## Overview
-Data lineage, dataset hashing, and dataset versioning with tools such as DVC.
+Comprehensive guide and implementation of modern dataset and feature engineering infrastructure, covering Data Version Control (DVC), Feature Stores (Feast architecture), Point-in-Time correctness, and data lineage DAGs.
 
-## Learning Objectives
-By completing this topic module, you will be able to:
-- Explain core theoretical foundations, assumptions, and mathematical formulations.
-- Implement key algorithms from scratch as well as using production-grade libraries.
-- Diagnose and debug common issues such as numerical instability, over-fitting, and data leakage.
-- Evaluate trade-offs between computational complexity, latency, memory consumption, and predictive performance.
-- Formulate answers to relevant technical and conceptual interview questions.
+---
 
-## Directory Structure
-- [`notebook.ipynb`](./notebook.ipynb): Interactive Jupyter notebook providing self-contained, reproducible walkthroughs.
-- [`code/`](./code/): Reusable Python modules, scripts, and helper functions.
-- [`interview.md`](./interview.md): Curated technical interview questions, conceptual drills, and trade-off analyses.
-- [`references.md`](./references.md): Seminal papers, official documentation, authoritative textbooks, and external resources.
+## 1. System Architecture
 
-## Quick Start
-1. Ensure your local virtual environment is activated and dependencies are installed:
-   ```bash
-   pip install -r ../../requirements.txt
-   ```
-2. Launch the interactive notebook:
-   ```bash
-   jupyter lab notebook.ipynb
-   ```
-3. Run standalone scripts in [`code/`](./code/):
-   ```bash
-   python -m code.<script_name>
-   ```
+```
+                                  +---------------------------------+
+                                  |    Raw Data Stream / Lakehouse  |
+                                  +----------------+----------------+
+                                                   |
+                             +---------------------+---------------------+
+                             |                                           |
+                             v                                           v
+               [DVC Content-Addressed Store]                 [Feature Transformation Pipeline]
+               - SHA-256 data fingerprinting                             |
+               - .dvc metadata in Git                                    v
+               - Payload in Cloud Object Storage             +-----------------------+
+                                                             |     Feature Store     |
+                                                             +-----------+-----------+
+                                                                         |
+                                           +-----------------------------+-----------------------------+
+                                           |                                                           |
+                                           v                                                           v
+                             [Online Store (Redis / DynamoDB)]                     [Offline Store (Parquet / Snowflake)]
+                             - Sub-10ms point lookups                              - Historical event logs
+                             - Serves real-time inference                          - Point-in-Time (AS-OF) join for training
+```
 
-## Key Concepts Matrix
-| Concept | Description | Typical Use Case | Trade-offs |
-| :--- | :--- | :--- | :--- |
-| **Core Representation** | Primary mathematical or data abstraction | Problem formulation | Expressiveness vs. complexity |
-| **Optimization Goal** | Objective or loss function minimized/maximized | Training & convergence | Convexity vs. local minima |
-| **Inference Mechanism** | Forward evaluation / prediction pass | Production serving | Latency vs. precision |
+---
+
+## 2. Core Concepts
+
+### 2.1 DVC (Data Version Control)
+- **Problem**: Git cannot handle 100 GB+ datasets without catastrophic performance degradation.
+- **Solution**:
+  - DVC replaces large files with small text pointer files (`.dvc`) containing SHA-256 content hashes.
+  - The pointers are committed into Git branches alongside code.
+  - Actual binary datasets are synchronized to remote storage (`dvc push` / `dvc pull` to S3, GCS, or Azure Blob).
+  - Ensures deterministic reproducibility: any historical Git commit points to the exact dataset version used to train that model.
+
+### 2.2 Feature Stores (The Feast Pattern)
+A Feature Store standardizes feature definitions across the entire machine learning lifecycle:
+1. **Online Feature Store**:
+   - Ultra-low latency key-value storage (Redis, DynamoDB, Bigtable).
+   - Serves the latest feature vector for an entity ($O(1)$ lookup) during live online inference.
+2. **Offline Feature Store**:
+   - High-throughput analytical storage (BigQuery, Snowflake, Delta Lake, Parquet).
+   - Stores the complete append-only historical log of feature values over time.
+
+### 2.3 Point-in-Time Correctness (AS-OF Join)
+- **Target Leakage / Lookahead Bias**: If training data uses feature values computed after the label event occurred, the model learns an artificial relationship that will not exist in production.
+- **AS-OF Join Mechanism**:
+  For an observation occurring at timestamp $T$, the feature store performs a backward time-travel join to retrieve the most recent feature record timestamped $t \le T$.
+
+---
+
+## 3. Directory Structure
+
+```
+07-mlops/data-versioning/
+├── README.md
+├── notebook.ipynb
+├── interview.md
+├── references.md
+└── code/
+    ├── data_registry.py
+    └── test_data_registry.py
+```

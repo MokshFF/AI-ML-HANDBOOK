@@ -1,39 +1,78 @@
-# Llmops
+# LLMOps: Prompt Management & Operational Infrastructure
 
-## Overview
-Prompt versioning, LLM gateway management, rate limiting, cost tracking, caching, and latency telemetry.
+Comprehensive guide and implementation of Large Language Model Operations (LLMOps), covering prompt registries, token/cost telemetry, automated evaluation regression suites, and production observability.
 
-## Learning Objectives
-By completing this topic module, you will be able to:
-- Explain core theoretical foundations, assumptions, and mathematical formulations.
-- Implement key algorithms from scratch as well as using production-grade libraries.
-- Diagnose and debug common issues such as numerical instability, over-fitting, and data leakage.
-- Evaluate trade-offs between computational complexity, latency, memory consumption, and predictive performance.
-- Formulate answers to relevant technical and conceptual interview questions.
+---
 
-## Directory Structure
-- [`notebook.ipynb`](./notebook.ipynb): Interactive Jupyter notebook providing self-contained, reproducible walkthroughs.
-- [`code/`](./code/): Reusable Python modules, scripts, and helper functions.
-- [`interview.md`](./interview.md): Curated technical interview questions, conceptual drills, and trade-off analyses.
-- [`references.md`](./references.md): Seminal papers, official documentation, authoritative textbooks, and external resources.
+## 1. LLMOps Production Architecture
 
-## Quick Start
-1. Ensure your local virtual environment is activated and dependencies are installed:
-   ```bash
-   pip install -r ../../requirements.txt
-   ```
-2. Launch the interactive notebook:
-   ```bash
-   jupyter lab notebook.ipynb
-   ```
-3. Run standalone scripts in [`code/`](./code/):
-   ```bash
-   python -m code.<script_name>
-   ```
+```
++-------------------------------------------------------------------------------+
+|                             LLMOps Control Plane                              |
+|                                                                               |
+|  [Prompt Engineer / Developer]                                                |
+|               |                                                               |
+|               | 1. Author Prompt Template & Config                            |
+|               v                                                               |
+|  +-----------------------------------------+                                  |
+|  |           Prompt Registry               |                                  |
+|  |  - Semantic Versioning (v1, v2, v3...)  |                                  |
+|  |  - Environments: [Dev] -> [Staging] ->  |                                  |
+|  |                  [Prod]                 |                                  |
+|  +--------------------+--------------------+                                  |
+|                       |                                                       |
+|                       | 2. CI/CD Automated Evaluation Suite                   |
+|                       v                                                       |
+|  +-----------------------------------------+                                  |
+|  |      Automated Eval Pipeline            |                                  |
+|  |  - Deterministic String Assertions      |                                  |
+|  |  - LLM-as-a-Judge Rubric Scores         |                                  |
+|  |  - Cost & Latency Regression Gates      |                                  |
+|  +--------------------+--------------------+                                  |
+|                       | (Pass)                                                |
+|                       v                                                       |
+|  +-----------------------------------------+    +--------------------------+  |
+|  |       Production Serving Fleet          |--->|   Telemetry & Tracing    |  |
+|  |  - Injects dynamic user variables       |    |   - Token usage & cost   |  |
+|  |  - Executes model call via proxy        |    |   - P95 / P99 latency    |  |
+|  +-----------------------------------------+    |   - Hallucination alerts |  |
+|                                                 +--------------------------+  |
++-------------------------------------------------------------------------------+
+```
 
-## Key Concepts Matrix
-| Concept | Description | Typical Use Case | Trade-offs |
-| :--- | :--- | :--- | :--- |
-| **Core Representation** | Primary mathematical or data abstraction | Problem formulation | Expressiveness vs. complexity |
-| **Optimization Goal** | Objective or loss function minimized/maximized | Training & convergence | Convexity vs. local minima |
-| **Inference Mechanism** | Forward evaluation / prediction pass | Production serving | Latency vs. precision |
+---
+
+## 2. Core Concepts
+
+### 2.1 Classical MLOps vs LLMOps
+| Dimension | Classical MLOps | LLMOps |
+|---|---|---|
+| **Core Artifact** | Model Weights (`.pt`, `.pkl`, `.onnx`) | Prompt Templates, Embeddings, Context, Model APIs |
+| **Feedback Loop** | Ground truth label arrival (weeks/months) | User thumbs up/down, LLM-as-a-Judge, trace logs |
+| **Compute Bottleneck** | Model training (GPU clusters) | Inference token cost & Time-To-First-Token (TTFT) |
+| **Drift Monitoring** | Feature distribution shift (KS, PSI) | Hallucination rates, prompt drift, semantic drift |
+
+### 2.2 Cost & Token Telemetry
+Enterprise LLM applications make millions of API calls per month:
+- **Input Tokens vs Output Tokens**: Output tokens are typically $3\times - 4\times$ more expensive than input tokens.
+- **Cost Allocation**: Tracing token consumption per user, per feature, and per prompt version allows teams to identify expensive prompts and optimize context window efficiency.
+
+### 2.3 Automated Regression Evaluation
+Updating a system prompt to fix one edge case often causes silent failures on previously working cases:
+- Every prompt registered in the Prompt Registry must run against a golden evaluation test suite in CI.
+- Only prompt versions achieving $\ge 90\%$ pass rate without cost or latency regressions are eligible for promotion to production.
+
+---
+
+## 3. Directory Structure
+
+```
+07-mlops/llmops/
+├── README.md
+├── notebook.ipynb
+├── interview.md
+├── references.md
+└── code/
+    ├── llmops_tools.py
+    └── test_llmops_tools.py
+```

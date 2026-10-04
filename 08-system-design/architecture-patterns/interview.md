@@ -1,50 +1,33 @@
-# Architecture Patterns - Interview Preparation & Question Bank
+# ML Architecture Patterns Interview Questions & Answers
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **Architecture Patterns**.
-
----
-
-## 1. Conceptual & Theoretical Foundations
-
-### Q1: What are the fundamental principles and assumptions underlying Architecture Patterns?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
-
-### Q2: How does Architecture Patterns compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
+### Q1: Why do modern recommendation and search systems use a multi-stage cascade rather than a single end-to-end model?
+**Answer:**
+1. **Computational Infeasibility**: A catalog may contain 100 million items. Evaluating a 50-layer deep neural network with 100 features for every user against 100 million items requires $10^{10}$ forward passes per query, which is physically impossible within a 50 ms latency window.
+2. **Efficiency via Hierarchy**:
+   - *Retrieval Stage*: Uses fast approximate nearest neighbor (ANN) search over precomputed item embeddings in $O(\log N)$ time, eliminating 99.99% of irrelevant items.
+   - *Ranking Stage*: Spends heavy GPU compute only on the top 500-1000 plausible candidates using expressive user-item interaction cross-features.
+   - *Reranking Stage*: Enforces non-differentiable business rules (diversity, fairness, ad insertion) that cannot be cleanly expressed inside gradient descent loss functions.
 
 ---
 
-## 2. Practical Engineering & Troubleshooting
-
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
-
----
-
-## 3. Production & Scalability Considerations
-
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
+### Q2: What is the difference between Lambda Architecture and Kappa Architecture in ML systems?
+**Answer:**
+- **Lambda Architecture**:
+  - Maintains two separate paths: a **Speed Layer** (stream processing, e.g. Flink/Kafka for low-latency real-time features) and a **Batch Layer** (Hadoop/Spark for accurate historical batch processing).
+  - Merges views at query time.
+  - *Drawback*: Requires maintaining dual codebases for the same business logic, leading to subtle logic drift between online and offline features.
+- **Kappa Architecture**:
+  - Eliminates the batch processing system entirely; treats all data as an append-only immutable event stream (Kafka).
+  - Uses a single stream-processing engine (e.g., Apache Flink) for both real-time event processing and historical re-processing (by rewinding stream offsets).
+  - *Advantage*: Guarantees identical feature definitions for online serving and offline model training.
 
 ---
 
-## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+### Q3: When should you choose Asynchronous Event-Driven inference over Synchronous RPC?
+**Answer:**
+- **Use Asynchronous Event-Driven Inference when**:
+  - Processing takes longer than typical HTTP timeout budgets ($> 2 - 5\text{ seconds}$), such as batch document OCR, video object tracking, or complex multi-agent execution.
+  - Traffic exhibits sudden bursty spikes that would overwhelm synchronous servers; message queues (Kafka, SQS) buffer requests gracefully.
+  - Clients do not need immediate responses (e.g. background fraud auditing, weekly report generation).
+- **Use Synchronous RPC when**:
+  - A human user is waiting directly on the response to render a UI (e.g., search autocomplete, real-time checkout fraud authorization).

@@ -1,50 +1,43 @@
-# Data Versioning - Interview Preparation & Question Bank
+# Data Versioning & Feature Stores Interview Questions & Answers
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **Data Versioning**.
+### Q1: What is "Point-in-Time Correctness" in Feature Stores, and what happens if you violate it?
+**Answer:**
+**Definition**:
+Point-in-time correctness (also called time-travel or AS-OF join) guarantees that when generating training datasets from historical observations, each observation at timestamp $T$ is joined only with feature values that were computed and available at or before $T$ ($t_{\text{feature}} \le T$).
 
----
-
-## 1. Conceptual & Theoretical Foundations
-
-### Q1: What are the fundamental principles and assumptions underlying Data Versioning?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
-
-### Q2: How does Data Versioning compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
+**Consequences of Violation (Data Leakage)**:
+If you simply join on `user_id` using the current feature snapshot:
+- A user who committed fraud at 2:00 PM had 0 chargebacks at that moment.
+- By 5:00 PM, the system flagged them and updated `chargeback_count = 1`.
+- If you train on the 5:00 PM state, the model sees `chargeback_count = 1` and easily predicts fraud.
+- In production, when the next transaction arrives, `chargeback_count` will be 0, causing the model to completely fail to detect fraud in real time.
 
 ---
 
-## 2. Practical Engineering & Troubleshooting
-
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
-
----
-
-## 3. Production & Scalability Considerations
-
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
+### Q2: How does DVC differ from Git LFS (Large File Storage)?
+**Answer:**
+- **Git LFS**:
+  - Tight coupling with Git server infrastructure (requires Git LFS support on GitHub/GitLab).
+  - Harder to customize remote backends (e.g. multi-cloud buckets, SSH storage).
+  - Lacks native ML pipeline awareness.
+- **DVC (Data Version Control)**:
+  - Completely decoupled: Git stores only tiny human-readable `.dvc` files; binary data can be sent to arbitrary storage (S3, GCS, Azure Blob, Google Drive, SFTP, NFS).
+  - **Pipeline DAGs**: `dvc.yaml` tracks dependencies between data preparation scripts, raw data, and trained models, skipping execution if inputs have not changed.
+  - Native integration with metrics, plots, and experiment tracking.
 
 ---
 
-## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+### Q3: Why is a dual-storage (Online vs Offline) architecture necessary for Feature Stores?
+**Answer:**
+Online and offline feature serving have incompatible access patterns:
+1. **Online Serving Requirements**:
+   - Access pattern: Single-row point lookups by Entity ID (e.g., `user_id="12345"`).
+   - Latency: Strictly sub-10 ms (P99).
+   - Throughput: High QPS (thousands of requests per second).
+   - Optimal storage: In-memory Key-Value store (Redis, DynamoDB, Cassandra).
+2. **Offline Training Requirements**:
+   - Access pattern: Massive scans, multi-table AS-OF joins across millions of rows and hundreds of columns.
+   - Latency: Minutes to hours acceptable.
+   - Scale: Terabytes to Petabytes.
+   - Optimal storage: Columnar data lakes / warehouses (Parquet, Delta Lake, Snowflake, BigQuery).
+A Feature Store bridges both by providing a single feature definition with an automated ingestion sync from offline to online.

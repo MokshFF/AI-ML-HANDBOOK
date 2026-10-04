@@ -1,29 +1,15 @@
-# CI CD For ML - References & Further Reading
+# CI/CD for ML References & Seminal Systems
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **CI CD For ML**.
+### Documentation & Guides
+- **MLOps: Continuous Delivery and Automation Pipelines in Machine Learning** (Google Cloud)  
+  *The foundational whitepaper defining Level 0, Level 1, and Level 2 MLOps maturity.*  
+  [https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
 
----
+- **Continuous Machine Learning (CML) with GitHub Actions** (Iterative.ai)  
+  [https://cml.dev/](https://cml.dev/)
 
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+- **Great Expectations: Data Assertions and Pipeline Testing**  
+  [https://docs.greatexpectations.io/](https://docs.greatexpectations.io/)
 
----
-
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
-
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+- **GitHub Actions for MLOps Guide**  
+  [https://docs.github.com/en/actions](https://docs.github.com/en/actions)

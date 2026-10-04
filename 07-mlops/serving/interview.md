@@ -1,50 +1,36 @@
-# Serving - Interview Preparation & Question Bank
+# ML Model Serving Interview Questions & Answers
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **Serving**.
-
----
-
-## 1. Conceptual & Theoretical Foundations
-
-### Q1: What are the fundamental principles and assumptions underlying Serving?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
-
-### Q2: How does Serving compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
+### Q1: Why use FastAPI over Flask for production machine learning serving?
+**Answer:**
+1. **Asynchronous Concurrency (`async`/`await`)**: FastAPI runs on ASGI (Uvicorn), non-blockingly handling thousands of concurrent I/O connections (e.g. database feature lookups or external API calls) on a single thread.
+2. **Strict Schema Validation**: Built on Pydantic, FastAPI parses and validates incoming JSON payloads against strict Python type annotations, rejecting malformed feature matrices before they reach the model.
+3. **High Performance**: Outperforms traditional WSGI frameworks like Flask/Django by $2\times - 3\times$ in raw request throughput.
+4. **Auto-Generated OpenAPI / Swagger Docs**: Facilitates immediate contract sharing between ML engineers and frontend/backend teams.
 
 ---
 
-## 2. Practical Engineering & Troubleshooting
-
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
-
----
-
-## 3. Production & Scalability Considerations
-
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
+### Q2: What is the difference between Kubernetes Liveness and Readiness probes, and why are both essential for ML services?
+**Answer:**
+- **Liveness Probe**:
+  - *Purpose*: Checks if the container process is alive and not deadlocked.
+  - *Action on failure*: Kubernetes kills and restarts the container.
+- **Readiness Probe**:
+  - *Purpose*: Checks if the container is ready to accept live traffic.
+  - *Action on failure*: Kubernetes temporarily isolates the container from the Service load balancer without killing it.
+- **Critical ML Scenario**:
+  Loading a 10 GB model into GPU memory takes 30-60 seconds. During this warm-up time:
+  - If only a liveness probe exists and fails, Kubernetes enters an infinite restart crash-loop.
+  - With a readiness probe, Kubernetes waits until the model weights are loaded into memory and verified before sending the first user request, ensuring zero dropped requests during rolling updates.
 
 ---
 
-## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+### Q3: How does Dynamic Micro-Batching achieve higher throughput without exceeding latency SLAs?
+**Answer:**
+In modern accelerators (GPUs/TPUs), computing a batch of 8 or 16 inputs takes almost the same time as computing a batch of 1 due to high degree of tensor parallelism.
+**Dynamic Micro-Batching**:
+1. Incoming requests enter an in-memory queue.
+2. The batcher dispatches the batch when either:
+   - Size limit: Number of queued requests reaches `max_batch_size` (e.g. 16).
+   - Time limit: The oldest request has waited `max_wait_ms` (e.g. 10 ms).
+3. The model processes the batch in one forward pass and dispatches predictions back to their respective async caller contexts.
+4. This yields massive throughput gains (e.g., $5\times$ higher QPS) while bounding the maximum latency delay by `max_wait_ms`.

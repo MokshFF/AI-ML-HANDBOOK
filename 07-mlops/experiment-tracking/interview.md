@@ -1,50 +1,29 @@
-# Experiment Tracking - Interview Preparation & Question Bank
+# MLOps Experiment Tracking Interview Questions & Answers
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **Experiment Tracking**.
-
----
-
-## 1. Conceptual & Theoretical Foundations
-
-### Q1: What are the fundamental principles and assumptions underlying Experiment Tracking?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
-
-### Q2: How does Experiment Tracking compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
+### Q1: Why is Git insufficient for tracking machine learning experiments?
+**Answer:**
+1. **Large Binary Weights**: Storing gigabyte-scale neural network weight checkpoints (`.pt`, `.bin`) bloats Git repositories, making cloning and diffing prohibitively slow.
+2. **Non-Code Variables**: ML results depend on code, data, hyperparameters, hardware configurations (CUDA version, GPU architecture), and stochastic seeds. Git only tracks source code.
+3. **Dynamic Metric Streams**: Git cannot record high-frequency scalar metrics (step-by-step training loss curves, GPU memory utilization) or visualize metric trajectories.
+4. **Specialized Tooling**: Tools like MLflow and Weights & Biases (W&B) store lightweight metadata in relational databases and large binary artifacts in object stores (S3/GCS), linking each run to the specific Git commit hash for full auditability.
 
 ---
 
-## 2. Practical Engineering & Troubleshooting
-
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
+### Q2: What are the three components of MLflow, and how do they interact?
+**Answer:**
+1. **MLflow Tracking**: An API and UI for logging parameters, code versions, metrics, and artifacts during ML code execution.
+2. **MLflow Models / Projects**: A standard packaging format for model dependencies (`conda.yaml`, `requirements.txt`) and unified flavors (PyTorch, Scikit-learn, ONNX) allowing models to be loaded uniformly anywhere.
+3. **MLflow Model Registry**: A centralized model store with APIs and UI for managing the full lifecycle of ML models, including versioning, stage transitions (Staging -> Production -> Archived), and approval annotations.
 
 ---
 
-## 3. Production & Scalability Considerations
-
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
-
----
-
-## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+### Q3: How do you design an automated promotion pipeline from Staging to Production in a Model Registry?
+**Answer:**
+1. **Continuous Integration (CI)**: When a training run concludes, the candidate model is registered in stage `None`.
+2. **Automated Offline Gates**: A CI job loads the candidate model and runs automated evaluation tests:
+   - Performance gate: Candidate AUC/F1 must be $\ge$ Production Champion baseline by $+0.5\%$.
+   - Safety/Fairness gate: Demographic parity and slice evaluation tests must pass.
+   - Latency/SLA gate: 99th percentile inference latency on target hardware must be under 50 ms.
+3. **Staging Promotion**: If all offline gates pass, the registry automatically transitions the model to `Staging`.
+4. **Canary / Shadow Testing**: The model receives 5% of production traffic or runs in shadow mode (asynchronous scoring without returning predictions to users).
+5. **Production Promotion**: If error rates and business KPIs remain stable over 48 hours, the candidate is promoted to `Production`, and the previous version is transitioned to `Archived`.

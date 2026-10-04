@@ -1,50 +1,37 @@
-# Monitoring Drift - Interview Preparation & Question Bank
+# Model Monitoring & Drift Detection Interview Questions & Answers
 
-This document outlines high-frequency technical, conceptual, and system-design questions related to **Monitoring Drift**.
-
----
-
-## 1. Conceptual & Theoretical Foundations
-
-### Q1: What are the fundamental principles and assumptions underlying Monitoring Drift?
-- **Key Discussion Points**:
-  - Primary problem formulation and mathematical objectives.
-  - Assumptions made regarding data distribution, feature independence, or linearity.
-  - Failure modes when underlying assumptions are violated in real-world scenarios.
-
-### Q2: How does Monitoring Drift compare to alternative paradigms or legacy approaches?
-- **Key Discussion Points**:
-  - Computational complexity (time and space during training vs. inference).
-  - Sample efficiency and data volume requirements.
-  - Interpretability vs. expressive capacity trade-offs.
+### Q1: What is the fundamental difference between Data Drift and Concept Drift?
+**Answer:**
+Let $X$ denote features and $Y$ denote labels:
+- **Data Drift (Covariate Shift)**:
+  - $P(X)$ changes while $P(Y | X)$ remains constant.
+  - *Example*: An autonomous vehicle camera enters heavy rain. The input pixels $P(X)$ change radically due to raindrops, but the physical definition of a stop sign $P(Y | X)$ is unchanged.
+  - *Detection*: Immediate; can be computed on unlabeled inference traffic using KS-tests or PSI.
+- **Concept Drift**:
+  - $P(Y | X)$ changes (the underlying relationship between features and target changes).
+  - *Example*: During high inflation, a borrower with a 720 credit score and $50k income becomes significantly more likely to default than historically. The input profile $X$ looks identical, but the outcome probability $Y$ has changed.
+  - *Detection*: Delayed; requires waiting for ground truth labels (e.g. 30-90 days for loan default outcomes).
 
 ---
 
-## 2. Practical Engineering & Troubleshooting
-
-### Q3: What are the most common failure modes and diagnostic strategies?
-- **Common Symptoms**:
-  - Divergent loss curves, vanishing/exploding gradients, or stagnant metric improvement.
-  - High variance (overfitting) vs. high bias (underfitting).
-  - Train-serve skew, distribution shift, or data leakage.
-- **Diagnostic Playbook**:
-  - Baseline testing on minimal synthetic data (sanity check capacity to overfit 1 batch).
-  - Gradient clipping, learning rate warmup, and normalization checks.
-  - Feature attribution and ablation analysis.
-
----
-
-## 3. Production & Scalability Considerations
-
-### Q4: How would you design and deploy this in a latency-critical production pipeline?
-- **Key Dimensions**:
-  - Batching strategies vs. streaming/real-time inference constraints.
-  - Quantization, pruning, distillation, and hardware target (CPU vs. GPU vs. Edge).
-  - Telemetry: SLA metrics (p95/p99 latency), drift monitoring, and fallbacks.
+### Q2: Why is the Kolmogorov-Smirnov test well-suited for numerical features, and what are its limitations?
+**Answer:**
+- **Strengths**:
+  - Non-parametric: Makes zero assumptions about underlying distribution (Gaussian, Exponential, Bimodal, etc.).
+  - Scale-invariant: Invariant to monotonic transformations of the coordinates.
+  - Sensitive to shifts in shape, spread, and median simultaneously.
+- **Limitations**:
+  - Extreme sample size sensitivity: With millions of production requests ($N > 100,000$), trivial statistical noise yields $p < 0.0001$.
+  - Continuous data only: Not valid for categorical or discrete features (Chi-square test or Jensen-Shannon divergence should be used instead).
+  - Practical solution: Combine KS p-values with Population Stability Index (PSI) or Wasserstein distance to measure effect size.
 
 ---
 
-## 4. Coding & Whiteboard Drills
-- Implement the core mechanism from scratch in pure Python / NumPy without high-level abstractions.
-- Vectorize key operations to avoid explicit Python loops.
-- Handle edge cases: zero division, non-invertible matrices, extreme outliers, or missing tokens.
+### Q3: How do you design an alert triaging strategy to prevent "alert fatigue" in MLOps monitoring?
+**Answer:**
+1. **Tiered Severity Levels**:
+   - *P3 (Info / Warning)*: $0.10 \le \text{PSI} < 0.25$ on non-critical features. Logged to dashboard; no pager alert.
+   - *P1 (Critical / Action)*: $\text{PSI} \ge 0.25$ on top 3 most important feature columns OR rolling prediction accuracy drop $> 10\%$. Pagers on-call ML engineer.
+2. **Feature Attribution Weighting**: Do not alert on drift in low-importance features (e.g. features with $< 1\%$ Shapley/gain importance).
+3. **Sliding Window Persistence**: Require drift to persist across multiple consecutive evaluation batches (e.g. 3 consecutive hours) to avoid alerting on temporary diurnal traffic spikes.
+4. **Automated Remediation**: Trigger an automated shadow retraining pipeline; if the retrained candidate passes offline validation, present it for one-click deployment.

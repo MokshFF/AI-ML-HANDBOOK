@@ -1,29 +1,12 @@
-# Experiment Tracking - References & Further Reading
+# Experiment Tracking References & Seminal Papers
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Experiment Tracking**.
+### Papers & Standards
+- **Hidden Technical Debt in Machine Learning Systems** (Sculley et al., Google, 2015)  
+  *The landmark paper detailing why ML code is only a small fraction of real-world production ML infrastructure.*  
+  [https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems.pdf](https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems.pdf)
 
----
+- **MLflow: A Platform for Managing the Machine Learning Lifecycle** (Zaharia et al., Databricks, 2018)  
+  [https://mlflow.org/](https://mlflow.org/)
 
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
-
----
-
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
-
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+- **Rules of Machine Learning: Best Practices for ML Engineering** (Zinkevich, Google)  
+  [https://developers.google.com/machine-learning/guides/rules-of-ml](https://developers.google.com/machine-learning/guides/rules-of-ml)

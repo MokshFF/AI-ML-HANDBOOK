@@ -1,39 +1,57 @@
-# Architecture Patterns
+# Machine Learning System Design: Core Architecture Patterns
 
-## Overview
-Online vs batch inference, lambda/kappa architectures, feature stores, and caching layers.
+Comprehensive architectural guide and reference implementations of foundational machine learning system patterns, covering cascade ranking, lambda/kappa architectures, async event-driven inference, and model deployment topologies.
 
-## Learning Objectives
-By completing this topic module, you will be able to:
-- Explain core theoretical foundations, assumptions, and mathematical formulations.
-- Implement key algorithms from scratch as well as using production-grade libraries.
-- Diagnose and debug common issues such as numerical instability, over-fitting, and data leakage.
-- Evaluate trade-offs between computational complexity, latency, memory consumption, and predictive performance.
-- Formulate answers to relevant technical and conceptual interview questions.
+---
 
-## Directory Structure
-- [`notebook.ipynb`](./notebook.ipynb): Interactive Jupyter notebook providing self-contained, reproducible walkthroughs.
-- [`code/`](./code/): Reusable Python modules, scripts, and helper functions.
-- [`interview.md`](./interview.md): Curated technical interview questions, conceptual drills, and trade-off analyses.
-- [`references.md`](./references.md): Seminal papers, official documentation, authoritative textbooks, and external resources.
+## 1. Foundational Architecture Patterns
 
-## Quick Start
-1. Ensure your local virtual environment is activated and dependencies are installed:
-   ```bash
-   pip install -r ../../requirements.txt
-   ```
-2. Launch the interactive notebook:
-   ```bash
-   jupyter lab notebook.ipynb
-   ```
-3. Run standalone scripts in [`code/`](./code/):
-   ```bash
-   python -m code.<script_name>
-   ```
+### 1.1 The Multi-Stage Cascade Ranking Pattern
+Large-scale recommendation and search systems cannot run deep neural networks over millions of items within a $50\text{ ms}$ SLA. They divide scoring into a cascade:
 
-## Key Concepts Matrix
-| Concept | Description | Typical Use Case | Trade-offs |
-| :--- | :--- | :--- | :--- |
-| **Core Representation** | Primary mathematical or data abstraction | Problem formulation | Expressiveness vs. complexity |
-| **Optimization Goal** | Objective or loss function minimized/maximized | Training & convergence | Convexity vs. local minima |
-| **Inference Mechanism** | Forward evaluation / prediction pass | Production serving | Latency vs. precision |
+```mermaid
+flowchart LR
+    A["Entire Catalog<br/>(10,000,000+ Items)"] -->|"Stage 1: Retrieval<br/>(ANN / BM25 / Filtering)"| B["Candidates<br/>(1,000 Items)"]
+    B -->|"Stage 2: Scoring<br/>(Deep Ranking Model)"| C["Top Ranked<br/>(100 Items)"]
+    C -->|"Stage 3: Reranking<br/>(Diversity / Business Rules)"| D["Final Feed<br/>(10 - 20 Items)"]
+```
+
+1. **Stage 1 (Retrieval / Candidate Generation)**:
+   - Evaluates: Millions of items down to hundreds.
+   - Algorithms: Two-Tower vector search (HNSW/IVF-PQ), inverted indexes, collaborative filtering heuristics.
+   - Latency budget: $5 - 15\text{ ms}$.
+2. **Stage 2 (Scoring / Fine Ranking)**:
+   - Evaluates: Hundreds of items down to top-50.
+   - Models: Cross-features, DLRM, Multi-Task GBDT / Transformer.
+   - Latency budget: $20 - 35\text{ ms}$.
+3. **Stage 3 (Reranking / Post-Processing)**:
+   - Evaluates: Top-50 down to final 10.
+   - Operations: Deduplication, category diversity (Maximal Marginal Relevance), sponsored insertion, fresh content exploration.
+   - Latency budget: $2 - 5\text{ ms}$.
+
+---
+
+### 1.2 Serving Topologies
+1. **Model-as-a-Service (MaaS)**:
+   - Models hosted as standalone microservices behind gRPC/REST APIs (e.g. Triton, TorchServe).
+   - *Pros*: Independent autoscaling, heterogeneous hardware allocation (GPUs vs CPUs), decoupled release cycles.
+   - *Cons*: Network serialization/deserialization latency overhead.
+2. **Embedded Model**:
+   - Model run directly inside application process via C++/Rust bindings or ONNX Runtime.
+   - *Pros*: Zero network latency ($< 1\text{ ms}$).
+   - *Cons*: Memory contention with application, language/version coupling.
+
+---
+
+## 2. Directory Structure
+
+```
+08-system-design/architecture-patterns/
+├── README.md
+├── notebook.ipynb
+├── interview.md
+├── references.md
+└── code/
+    ├── patterns.py
+    └── test_patterns.py
+```

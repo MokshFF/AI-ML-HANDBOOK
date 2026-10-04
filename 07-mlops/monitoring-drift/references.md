@@ -1,29 +1,15 @@
-# Monitoring Drift - References & Further Reading
+# Monitoring & Drift Detection References
 
-Curated citations, seminal research papers, official documentation, and authoritative study resources for **Monitoring Drift**.
+### Seminal Papers & Resources
+- **A Survey on Concept Drift Adaptation** (Lu et al., ACM Computing Surveys, 2018)  
+  *Comprehensive survey on concept drift detection methods, adaptive algorithms, and benchmarks.*  
+  [https://arxiv.org/abs/1704.00051](https://arxiv.org/abs/1704.00051)
 
----
+- **Evidently AI Documentation: ML Monitoring and Drift Metrics**  
+  [https://docs.evidentlyai.com/](https://docs.evidentlyai.com/)
 
-## 1. Seminal Research Papers
-- Foundational publications and milestone breakthroughs defining this domain.
-- For literature reading strategies, refer to [`../../11-research-papers/paper-reading-guide/`](../../11-research-papers/paper-reading-guide/).
+- **Prometheus Metric Types & Best Practices**  
+  [https://prometheus.io/docs/concepts/metric_types/](https://prometheus.io/docs/concepts/metric_types/)
 
----
-
-## 2. Textbooks & Authoritative Monographs
-- Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville (MIT Press).
-- Pattern Recognition and Machine Learning by Christopher Bishop (Springer).
-- Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow by Aurélien Géron (O'Reilly).
-- Understanding Machine Learning: From Theory to Algorithms by Shai Shalev-Shwartz and Shai Ben-David.
-
----
-
-## 3. Documentation & Production References
-- Official library documentation (PyTorch, Hugging Face, Scikit-learn, Ray, etc.).
-- Engineering blogs from leading research labs (Google DeepMind, Meta FAIR, Anthropic, OpenAI).
-
----
-
-## 4. Benchmark Suites & Datasets
-- Standard benchmark leaderboards and evaluation datasets relevant to this module.
-- Verification protocols and reproducibility guidelines.
+- **Great Expectations: Data Quality and Pipeline Validation**  
+  [https://greatexpectations.io/](https://greatexpectations.io/)

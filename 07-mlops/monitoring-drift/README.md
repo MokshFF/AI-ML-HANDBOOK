@@ -1,39 +1,62 @@
-# Monitoring Drift
+# Production Model Monitoring & Drift Detection
 
-## Overview
-Data drift, concept drift detection, performance degradation alerts, and continuous evaluation.
+Comprehensive guide and implementation of machine learning observability, covering Data Drift (Covariate Shift), Concept Drift, Kolmogorov-Smirnov (KS) tests, Population Stability Index (PSI), and Prometheus telemetry.
 
-## Learning Objectives
-By completing this topic module, you will be able to:
-- Explain core theoretical foundations, assumptions, and mathematical formulations.
-- Implement key algorithms from scratch as well as using production-grade libraries.
-- Diagnose and debug common issues such as numerical instability, over-fitting, and data leakage.
-- Evaluate trade-offs between computational complexity, latency, memory consumption, and predictive performance.
-- Formulate answers to relevant technical and conceptual interview questions.
+---
 
-## Directory Structure
-- [`notebook.ipynb`](./notebook.ipynb): Interactive Jupyter notebook providing self-contained, reproducible walkthroughs.
-- [`code/`](./code/): Reusable Python modules, scripts, and helper functions.
-- [`interview.md`](./interview.md): Curated technical interview questions, conceptual drills, and trade-off analyses.
-- [`references.md`](./references.md): Seminal papers, official documentation, authoritative textbooks, and external resources.
+## 1. Model Degradation Taxonomy
 
-## Quick Start
-1. Ensure your local virtual environment is activated and dependencies are installed:
-   ```bash
-   pip install -r ../../requirements.txt
-   ```
-2. Launch the interactive notebook:
-   ```bash
-   jupyter lab notebook.ipynb
-   ```
-3. Run standalone scripts in [`code/`](./code/):
-   ```bash
-   python -m code.<script_name>
-   ```
+```
++-------------------------------------------------------------------------------+
+|                            Model Degradation Types                            |
++---------------------------------------+---------------------------------------+
+| 1. Data Drift (Covariate Shift)       | 2. Concept Drift                      |
+|    Shift in Input Distribution P(X)   |    Shift in Relationship P(Y | X)     |
+|    - User demographic changes         |    - Competitor pricing changes       |
+|    - Sensor calibration decay         |    - Macroeconomic shifts             |
+|    - Schema / preprocessing bugs      |    - Fraud ring behavior evolution    |
++---------------------------------------+---------------------------------------+
+| 3. Label Drift (Prior Probability)    | 4. Software & Pipeline Bugs           |
+|    Shift in Target Distribution P(Y)  |    - Upstream missing values          |
+|    - Disease outbreak increasing      |    - Feature store schema mismatch    |
+|      positive diagnosis rates         |    - Timezone / unit conversion errors|
++---------------------------------------+---------------------------------------+
+```
 
-## Key Concepts Matrix
-| Concept | Description | Typical Use Case | Trade-offs |
-| :--- | :--- | :--- | :--- |
-| **Core Representation** | Primary mathematical or data abstraction | Problem formulation | Expressiveness vs. complexity |
-| **Optimization Goal** | Objective or loss function minimized/maximized | Training & convergence | Convexity vs. local minima |
-| **Inference Mechanism** | Forward evaluation / prediction pass | Production serving | Latency vs. precision |
+---
+
+## 2. Statistical Testing Methodologies
+
+### 2.1 Kolmogorov-Smirnov (KS) Two-Sample Test
+- **Hypothesis**: $H_0$: Reference sample $X_{\text{ref}}$ and Production sample $X_{\text{cur}}$ come from the same continuous distribution.
+- **Statistic**: Maximum vertical difference between empirical cumulative distribution functions (ECDFs):
+  $$D = \sup_x |F_{\text{ref}}(x) - F_{\text{cur}}(x)|$$
+- **Significance**: If $p < 0.05$, reject $H_0$ and conclude that input distribution has drifted.
+
+### 2.2 Population Stability Index (PSI)
+Used in risk modeling and financial credit scoring to quantify distribution changes:
+$$\text{PSI} = \sum_{i=1}^B \left(P_{\text{cur}, i} - P_{\text{ref}, i}\right) \times \ln\left(\frac{P_{\text{cur}, i}}{P_{\text{ref}, i}}\right)$$
+- **Standard Thresholds**:
+  - $\text{PSI} < 0.10$: Minor shift; no action required.
+  - $0.10 \le \text{PSI} < 0.25$: Moderate shift; trigger automated warning / queue for review.
+  - $\text{PSI} \ge 0.25$: Significant shift; trigger automated retraining and rollback verification.
+
+### 2.3 Earth Mover's Distance (Wasserstein-1)
+Measures the minimum work (mass $\times$ distance) required to transform one probability distribution into another:
+$$W_1(P, Q) = \int_{-\infty}^\infty |F_P(x) - F_Q(x)| \, dx$$
+Unlike KL divergence, Wasserstein distance is symmetric, always finite, and provides a continuous metric even for disjoint distributions.
+
+---
+
+## 3. Directory Structure
+
+```
+07-mlops/monitoring-drift/
+├── README.md
+├── notebook.ipynb
+├── interview.md
+├── references.md
+└── code/
+    ├── drift_detector.py
+    └── test_drift_detector.py
+```
