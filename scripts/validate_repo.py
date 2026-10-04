@@ -44,7 +44,7 @@ MAJOR_MODULES = [
 
 DISALLOWED_FILE_PATTERNS = [
     r"^\.env$",
-    r"^\.env\..+$",
+    r"^\.env\.(?!example$).+$",
     r".*\.pem$",
     r".*\.key$",
     r"^credentials\.json$",
@@ -81,13 +81,51 @@ def validate_repository(root_dir: Path) -> bool:
             if not (tpl_dir / tf).exists():
                 errors.append(f"Missing file in _templates/topic-template: {tf}")
 
-    # 4. Check Topic Directories
+    REQUIRED_PROJECT_FILES = [
+        "README.md",
+        "src",
+        "notebooks",
+        "tests",
+        "requirements.txt",
+        ".env.example",
+    ]
+
+    # 4. Check Topic and Project Directories
     topic_count = 0
+    project_count = 0
     notebook_count = 0
     for mod in MAJOR_MODULES:
         mod_dir = root_dir / mod
         if not mod_dir.is_dir():
             continue
+        
+        if mod == "09-projects":
+            # 09-projects is structured by category -> project
+            for cat in mod_dir.iterdir():
+                if cat.is_dir() and not cat.name.startswith("."):
+                    for proj in cat.iterdir():
+                        if proj.is_dir() and not proj.name.startswith("."):
+                            project_count += 1
+                            for pf in REQUIRED_PROJECT_FILES:
+                                target = proj / pf
+                                if not target.exists():
+                                    errors.append(f"Project '{mod}/{cat.name}/{proj.name}' is missing '{pf}'")
+                            
+                            nb_dir = proj / "notebooks"
+                            if nb_dir.exists():
+                                for nb_path in nb_dir.glob("*.ipynb"):
+                                    notebook_count += 1
+                                    try:
+                                        with open(nb_path, "r", encoding="utf-8") as f:
+                                            data = json.load(f)
+                                        if "cells" not in data or "metadata" not in data:
+                                            errors.append(f"Invalid notebook structure in: {nb_path}")
+                                        if data.get("nbformat", 0) < 4:
+                                            errors.append(f"Notebook nbformat < 4 in: {nb_path}")
+                                    except Exception as e:
+                                        errors.append(f"Failed to parse notebook JSON at {nb_path}: {e}")
+            continue
+
         for sub in mod_dir.iterdir():
             if sub.is_dir() and not sub.name.startswith("."):
                 topic_count += 1
@@ -110,7 +148,7 @@ def validate_repository(root_dir: Path) -> bool:
                     except Exception as e:
                         errors.append(f"Failed to parse notebook JSON at {nb_path}: {e}")
 
-    print(f"  [+] Validated {topic_count} topics and {notebook_count} Jupyter notebooks.")
+    print(f"  [+] Validated {topic_count} topics, {project_count} projects, and {notebook_count} Jupyter notebooks.")
 
     # 5. Check Internal Markdown Links
     print("[*] Validating internal markdown links...")

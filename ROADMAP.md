@@ -45,7 +45,7 @@ flowchart TD
 4. [`01-machine-learning/feature-engineering`](01-machine-learning/feature-engineering/) & [`01-machine-learning/model-evaluation`](01-machine-learning/model-evaluation/)
 5. [`01-machine-learning/ensemble`](01-machine-learning/ensemble/)
 6. [`07-mlops/experiment-tracking`](07-mlops/experiment-tracking/) & [`07-mlops/serving`](07-mlops/serving/)
-7. [`09-projects/guided-projects`](09-projects/guided-projects/)
+7. [`09-projects/beginner`](09-projects/beginner/)
 8. [`10-interview-prep/coding-questions`](10-interview-prep/coding-questions/)
 
 ---
@@ -58,7 +58,7 @@ flowchart TD
 4. [`02-deep-learning/rnn-lstm-gru`](02-deep-learning/rnn-lstm-gru/) & [`02-deep-learning/attention-transformers`](02-deep-learning/attention-transformers/)
 5. [`02-deep-learning/training-tricks`](02-deep-learning/training-tricks/) (optimization, regularization, LR schedules)
 6. [`02-deep-learning/generative-models`](02-deep-learning/generative-models/) & [`02-deep-learning/graph-neural-networks`](02-deep-learning/graph-neural-networks/)
-7. [`09-projects/production-systems`](09-projects/production-systems/)
+7. [`09-projects/intermediate`](09-projects/intermediate/)
 8. [`10-interview-prep/ml-theory-qa`](10-interview-prep/ml-theory-qa/)
 
 ---
@@ -85,7 +85,7 @@ flowchart TD
 5. [`06-generative-ai/agents`](06-generative-ai/agents/) (tool use, planning, multi-agent frameworks)
 6. [`06-generative-ai/evaluation`](06-generative-ai/evaluation/) (LLM-as-a-judge, benchmark suites)
 7. [`06-generative-ai/multimodal`](06-generative-ai/multimodal/)
-8. [`09-projects/capstone`](09-projects/capstone/)
+8. [`09-projects/genai`](09-projects/genai/)
 
 ---
 
@@ -97,7 +97,7 @@ flowchart TD
 4. [`11-research-papers/foundational-papers`](11-research-papers/foundational-papers/)
 5. [`11-research-papers/modern-llm-breakthroughs`](11-research-papers/modern-llm-breakthroughs/)
 6. [`06-generative-ai/safety-alignment`](06-generative-ai/safety-alignment/) (RLHF, DPO mechanics)
-7. Code re-implementation of select papers in [`09-projects/guided-projects`](09-projects/guided-projects/)
+7. Code re-implementation of select papers in [`09-projects/research`](09-projects/research/)
 
 ---
 
