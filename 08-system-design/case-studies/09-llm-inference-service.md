@@ -90,7 +90,7 @@ data: {"id":"chatcmpl-01","choices":[{"delta":{"content":" partitions"}}]}
 data: [DONE]
 ```
 
-## 10. Training & Optimization Pipeline
+## 10. Training Pipeline
 - Continuous benchmarking using `vllm benchmark throughput` across token distribution lengths (short input / long output vs long input / short output).
 - Quantization calibration: Evaluating FP8 scales on corporate domain prompts to eliminate activation outlier clipping.
 

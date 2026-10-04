@@ -101,7 +101,7 @@ Response:
 }
 ```
 
-## 10. Training & Evaluation Pipeline
+## 10. Training Pipeline
 - SWE-bench automated evaluation harness: Benchmarking agent success rate across 300 real-world GitHub issues.
 - Trajectory optimization: Distilling successful multi-step execution traces into fine-tuning datasets for smaller open models.
 

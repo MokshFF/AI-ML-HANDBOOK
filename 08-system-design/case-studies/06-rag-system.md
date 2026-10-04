@@ -93,7 +93,7 @@ Response (Streamed SSE or JSON):
 }
 ```
 
-## 10. Training / Evaluation Pipeline
+## 10. Training Pipeline
 - **RAG Triad Automated Evaluation (RAGAS)**: Nightly evaluation of 1,000 synthetic gold question-answer pairs:
   - Context Relevance $\ge 0.85$
   - Groundedness / Faithfulness $\ge 0.98$

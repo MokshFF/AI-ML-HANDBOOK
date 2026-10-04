@@ -94,7 +94,7 @@ Server streams chunks:
 }
 ```
 
-## 10. Training & Evaluation Pipeline
+## 10. Training Pipeline
 - **Automated Synthetic Testing**: Nightly simulation of 500 persona-based conversations (e.g. angry customer, ambiguous request, attempted prompt injection).
 - **Containment Rate Metric**: Percentage of sessions resolved without human escalation (target $\ge 72\%$).
 - **Customer Satisfaction (CSAT)**: Correlation analysis between bot sentiment scores and post-chat 5-star ratings.
