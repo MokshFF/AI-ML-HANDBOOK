@@ -1,39 +1,15 @@
-# Coding Questions
+# Practical Coding Interview Questions (`10-interview-prep/coding-questions`)
 
-## Overview
-Data structures, algorithms, vector operations, and ML algorithm implementations from scratch.
+Production-grade code solutions, algorithms from scratch, vector math, and engineering exercises commonly tested in Staff/Senior ML Engineer coding screens.
 
-## Learning Objectives
-By completing this topic module, you will be able to:
-- Explain core theoretical foundations, assumptions, and mathematical formulations.
-- Implement key algorithms from scratch as well as using production-grade libraries.
-- Diagnose and debug common issues such as numerical instability, over-fitting, and data leakage.
-- Evaluate trade-offs between computational complexity, latency, memory consumption, and predictive performance.
-- Formulate answers to relevant technical and conceptual interview questions.
-
-## Directory Structure
-- [`notebook.ipynb`](./notebook.ipynb): Interactive Jupyter notebook providing self-contained, reproducible walkthroughs.
-- [`code/`](./code/): Reusable Python modules, scripts, and helper functions.
-- [`interview.md`](./interview.md): Curated technical interview questions, conceptual drills, and trade-off analyses.
-- [`references.md`](./references.md): Seminal papers, official documentation, authoritative textbooks, and external resources.
-
-## Quick Start
-1. Ensure your local virtual environment is activated and dependencies are installed:
-   ```bash
-   pip install -r ../../requirements.txt
-   ```
-2. Launch the interactive notebook:
-   ```bash
-   jupyter lab notebook.ipynb
-   ```
-3. Run standalone scripts in [`code/`](./code/):
-   ```bash
-   python -m code.<script_name>
-   ```
-
-## Key Concepts Matrix
-| Concept | Description | Typical Use Case | Trade-offs |
-| :--- | :--- | :--- | :--- |
-| **Core Representation** | Primary mathematical or data abstraction | Problem formulation | Expressiveness vs. complexity |
-| **Optimization Goal** | Objective or loss function minimized/maximized | Training & convergence | Convexity vs. local minima |
-| **Inference Mechanism** | Forward evaluation / prediction pass | Production serving | Latency vs. precision |
+## Covered Dimensions
+1. **NumPy Vectorization**: Stable Softmax, pairwise Euclidean distance matrix without loops.
+2. **Pandas Pipelines**: Point-in-time as-of join to prevent data leakage, rolling window aggregations.
+3. **Scikit-Learn Architecture**: Custom scikit-learn transformer with `BaseEstimator` and `TransformerMixin`.
+4. **PyTorch From Scratch**: Scaled Dot-Product Multi-Head Self-Attention module.
+5. **Core ML Algorithms**: Vectorized K-Means clustering from scratch with k-means++ initialization.
+6. **Data Preprocessing**: Subword tokenization and 2D bounding box normalization.
+7. **Evaluation Metrics**: Binary ROC-AUC and NDCG@K ranking metrics from scratch.
+8. **Vector Search & Embeddings**: Cosine similarity retrieval and Reciprocal Rank Fusion (RRF).
+9. **RAG Mechanics**: Sliding window document chunking with metadata citation attribution.
+10. **LLM Applications**: Token-bucket rate limiter and semantic similarity caching.

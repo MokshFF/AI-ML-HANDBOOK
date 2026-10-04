@@ -59,7 +59,7 @@ flowchart TD
 5. [`02-deep-learning/training-tricks`](02-deep-learning/training-tricks/) (optimization, regularization, LR schedules)
 6. [`02-deep-learning/generative-models`](02-deep-learning/generative-models/) & [`02-deep-learning/graph-neural-networks`](02-deep-learning/graph-neural-networks/)
 7. [`09-projects/intermediate`](09-projects/intermediate/)
-8. [`10-interview-prep/ml-theory-qa`](10-interview-prep/ml-theory-qa/)
+8. [`10-interview-prep/ml-questions.md`](10-interview-prep/ml-questions.md)
 
 ---
 
@@ -72,7 +72,7 @@ flowchart TD
 5. [`06-generative-ai/fine-tuning`](06-generative-ai/fine-tuning/) (PEFT, LoRA, QLoRA)
 6. [`06-generative-ai/inference-optimization`](06-generative-ai/inference-optimization/) (quantization, vLLM, KV cache)
 7. [`07-mlops/llmops`](07-mlops/llmops/)
-8. [`10-interview-prep/system-design-interviews`](10-interview-prep/system-design-interviews/)
+8. [`10-interview-prep/system-design-questions.md`](10-interview-prep/system-design-questions.md)
 
 ---
 
@@ -109,7 +109,7 @@ flowchart TD
 4. [`08-system-design/scaling-infrastructure`](08-system-design/scaling-infrastructure/) (distributed training, sharding)
 5. [`08-system-design/case-studies`](08-system-design/case-studies/) (recommendation feed, fraud detection)
 6. [`07-mlops`](07-mlops/) (full production lifecycle)
-7. [`10-interview-prep/system-design-interviews`](10-interview-prep/system-design-interviews/)
+7. [`10-interview-prep/system-design-questions.md`](10-interview-prep/system-design-questions.md)
 
 ---
 

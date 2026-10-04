@@ -1,39 +1,15 @@
-# Cheat Sheets
+# Quick-Reference Cheat Sheets (`10-interview-prep/cheat-sheets`)
 
-## Overview
-Dense, quick-reference summaries of formulas, hyperparameter behaviors, model architectures, and CLI commands.
+Dense, high-yield technical reference sheets covering formulas, architecture parameters, tradeoffs, and failure modes.
 
-## Learning Objectives
-By completing this topic module, you will be able to:
-- Explain core theoretical foundations, assumptions, and mathematical formulations.
-- Implement key algorithms from scratch as well as using production-grade libraries.
-- Diagnose and debug common issues such as numerical instability, over-fitting, and data leakage.
-- Evaluate trade-offs between computational complexity, latency, memory consumption, and predictive performance.
-- Formulate answers to relevant technical and conceptual interview questions.
-
-## Directory Structure
-- [`notebook.ipynb`](./notebook.ipynb): Interactive Jupyter notebook providing self-contained, reproducible walkthroughs.
-- [`code/`](./code/): Reusable Python modules, scripts, and helper functions.
-- [`interview.md`](./interview.md): Curated technical interview questions, conceptual drills, and trade-off analyses.
-- [`references.md`](./references.md): Seminal papers, official documentation, authoritative textbooks, and external resources.
-
-## Quick Start
-1. Ensure your local virtual environment is activated and dependencies are installed:
-   ```bash
-   pip install -r ../../requirements.txt
-   ```
-2. Launch the interactive notebook:
-   ```bash
-   jupyter lab notebook.ipynb
-   ```
-3. Run standalone scripts in [`code/`](./code/):
-   ```bash
-   python -m code.<script_name>
-   ```
-
-## Key Concepts Matrix
-| Concept | Description | Typical Use Case | Trade-offs |
-| :--- | :--- | :--- | :--- |
-| **Core Representation** | Primary mathematical or data abstraction | Problem formulation | Expressiveness vs. complexity |
-| **Optimization Goal** | Objective or loss function minimized/maximized | Training & convergence | Convexity vs. local minima |
-| **Inference Mechanism** | Forward evaluation / prediction pass | Production serving | Latency vs. precision |
+## Available Cheat Sheets
+1. [**Machine Learning Algorithms**](./01-ml-algorithms.md) - Objective functions, hyperparameters, and failure modes
+2. [**Machine Learning Metrics**](./02-ml-metrics.md) - Formulations, tradeoffs, and class imbalance gotchas
+3. [**Deep Learning Architectures**](./03-dl-architectures.md) - ResNet, ViT, Transformers, Diffusion, and U-Net
+4. [**Optimization & Regularization**](./04-optimization.md) - SGD, AdamW, Learning rate schedules, and mixed precision
+5. [**Natural Language Processing**](./05-nlp.md) - Tokenization, TF-IDF, Word2Vec, BERT, and metrics
+6. [**Transformer Mechanics**](./06-transformers.md) - Attention variants, RoPE, RMSNorm, SwiGLU, and FlashAttention
+7. [**Retrieval-Augmented Generation (RAG)**](./07-rag.md) - Chunking, ANN indexing, hybrid search, and RAGAS
+8. [**Large Language Models (LLMs)**](./08-llms.md) - Pretraining scaling laws, LoRA, DPO, and vLLM
+9. [**Production MLOps**](./09-mlops.md) - Feature stores, serving APIs, CI/CD gates, and drift metrics
+10. [**ML System Design**](./10-system-design.md) - Capacity estimation, multi-stage cascades, and latency budgets
